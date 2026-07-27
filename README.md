@@ -1,4 +1,4 @@
-<img width="1892" height="913" alt="New Analysis Page" src="https://github.com/user-attachments/assets/0e38f024-7304-4e1d-bd4f-199e551cad9a" /># 🚀 PitchPilot AI Startup Coach
+ Startup Coach
 
 PitchPilot is an AI-powered startup validation platform that helps entrepreneurs analyze and improve their business ideas before building them.
 
