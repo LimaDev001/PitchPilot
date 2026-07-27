@@ -9,18 +9,23 @@ function HeroVisual() {
 
 
   return (
-    <div className="relative animate-float">
+    <div className="relative animate-float flex justify-center">
 
 
       {/* Main AI Card */}
 
       <div
         className={`
+
           rounded-3xl
           shadow-2xl
           border
-          p-8
-          w-[380px]
+
+          p-6
+
+          w-[330px]
+          sm:w-[360px]
+
           transition-colors
           duration-300
 
@@ -46,7 +51,7 @@ function HeroVisual() {
 
               <Sparkles
                 className="text-[#1F7A8C]"
-                size={24}
+                size={22}
               />
 
             </div>
@@ -58,7 +63,7 @@ function HeroVisual() {
 
               <h3
                 className={`
-                  text-xl
+                  text-lg
                   font-bold
 
                   ${
@@ -78,7 +83,7 @@ function HeroVisual() {
 
               <p
                 className={`
-                  text-sm
+                  text-xs
 
                   ${
                     darkMode
@@ -110,7 +115,7 @@ function HeroVisual() {
               px-3
               py-1
               rounded-full
-              text-sm
+              text-xs
               font-medium
             "
           >
@@ -137,187 +142,83 @@ function HeroVisual() {
 
 
 
-          {/* SWOT */}
+          {[
+
+            ["SWOT Analysis", "Completed"],
+            ["Market Opportunity", "High Potential"],
+            ["Investor Pitch", "Generated"]
+
+          ].map((item,index)=>(
 
 
-          <div
-            className={`
-              p-5
-              rounded-2xl
-              flex
-              justify-between
-              items-center
+            <div
+              key={index}
 
-              ${
-                darkMode
-                ? "bg-[#1F7A8C]/20"
-                : "bg-[#E1E5F2]"
-              }
+              className={`
 
-            `}
-          >
+                p-4
+
+                rounded-2xl
+
+                flex
+                justify-between
+                items-center
 
 
-            <div>
+                ${
+                  darkMode
+                  ? "bg-[#1F7A8C]/20"
+                  :
+                  index === 1
+                  ? "bg-[#BFDBF7]"
+                  : "bg-[#E1E5F2]"
+                }
 
-              <p
-                className={`
-                  text-sm
-
-                  ${
-                    darkMode
-                    ? "text-gray-300"
-                    : "text-gray-500"
-                  }
-
-                `}
-              >
-
-                SWOT Analysis
-
-              </p>
+              `}
+            >
 
 
-              <p className="font-semibold text-[#1F7A8C]">
+              <div>
 
-                Completed
+                <p
+                  className={`
 
-              </p>
+                    text-xs
 
+                    ${
+                      darkMode
+                      ? "text-gray-300"
+                      : "text-gray-500"
+                    }
 
-            </div>
+                  `}
+                >
 
+                  {item[0]}
 
-            <CheckCircle className="text-[#1F7A8C]"/>
-
-
-          </div>
-
-
-
-
-
-
-
-          {/* Market */}
+                </p>
 
 
-          <div
-            className={`
-              p-5
-              rounded-2xl
-              flex
-              justify-between
-              items-center
+                <p className="font-semibold text-[#1F7A8C] text-sm">
 
-              ${
-                darkMode
-                ? "bg-[#1F7A8C]/20"
-                : "bg-[#BFDBF7]"
-              }
+                  {item[1]}
 
-            `}
-          >
+                </p>
 
 
-            <div>
-
-              <p
-                className={`
-                  text-sm
-
-                  ${
-                    darkMode
-                    ? "text-gray-300"
-                    : "text-gray-500"
-                  }
-
-                `}
-              >
-
-                Market Opportunity
-
-              </p>
+              </div>
 
 
-              <p className="font-semibold text-[#1F7A8C]">
-
-                High Potential
-
-              </p>
+              <CheckCircle
+                size={20}
+                className="text-[#1F7A8C]"
+              />
 
 
             </div>
 
 
-            <CheckCircle className="text-[#1F7A8C]"/>
-
-
-          </div>
-
-
-
-
-
-
-
-          {/* Pitch */}
-
-
-          <div
-            className={`
-              p-5
-              rounded-2xl
-              flex
-              justify-between
-              items-center
-
-              ${
-                darkMode
-                ? "bg-[#1F7A8C]/20"
-                : "bg-[#E1E5F2]"
-              }
-
-            `}
-          >
-
-
-            <div>
-
-              <p
-                className={`
-                  text-sm
-
-                  ${
-                    darkMode
-                    ? "text-gray-300"
-                    : "text-gray-500"
-                  }
-
-                `}
-              >
-
-                Investor Pitch
-
-              </p>
-
-
-              <p className="font-semibold text-[#1F7A8C]">
-
-                Generated
-
-              </p>
-
-
-            </div>
-
-
-            <CheckCircle className="text-[#1F7A8C]"/>
-
-
-          </div>
-
-
+          ))}
 
 
         </div>
@@ -335,9 +236,13 @@ function HeroVisual() {
 
         <div
           className={`
+
             mt-6
+
             rounded-2xl
+
             p-4
+
 
             ${
               darkMode
@@ -351,7 +256,8 @@ function HeroVisual() {
 
           <p
             className={`
-              text-sm
+
+              text-xs
 
               ${
                 darkMode
@@ -368,7 +274,11 @@ function HeroVisual() {
 
 
 
-          <AITyping />
+          <div className="text-sm overflow-hidden">
+
+            <AITyping />
+
+          </div>
 
 
         </div>
@@ -384,18 +294,19 @@ function HeroVisual() {
 
 
 
+
       {/* Floating Icon */}
 
 
       <div
         className="
           absolute
-          -top-6
-          -right-6
+          -top-5
+          -right-2
           bg-[#1F7A8C]
           text-white
-          w-16
-          h-16
+          w-12
+          h-12
           rounded-full
           flex
           items-center

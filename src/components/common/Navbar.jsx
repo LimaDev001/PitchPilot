@@ -6,9 +6,7 @@ import Logo from "./Logo";
 
 function Navbar() {
 
-
   const { darkMode, toggleTheme } = useTheme();
-
 
 
   return (
@@ -21,37 +19,26 @@ function Navbar() {
         top-5
         left-1/2
         -translate-x-1/2
-        w-[90%]
+        w-[92%]
+        md:w-[88%]
         max-w-6xl
         backdrop-blur-md
         rounded-2xl
         shadow-sm
         z-50
         border
-        transition
-        duration-300
-
 
         ${
           darkMode
-
           ?
-
           "bg-[#022B3A]/90 border-white/10"
-
           :
-
           "bg-white/80 border-[#E1E5F2]"
-
         }
-
 
       `}
 
     >
-
-
-
 
 
       <div
@@ -61,8 +48,10 @@ function Navbar() {
           flex
           items-center
           justify-between
-          px-6
-          py-4
+          px-3
+          sm:px-4
+          md:px-6
+          py-2.5
 
         "
 
@@ -72,13 +61,9 @@ function Navbar() {
 
 
 
+        {/* LOGO */}
 
-
-        {/* Left Side */}
-
-
-
-        <div className="flex items-center gap-8">
+        <Logo />
 
 
 
@@ -87,7 +72,23 @@ function Navbar() {
 
 
 
-          {/* Logo */}
+        {/* NAV LINKS */}
+
+        <div
+
+          className="
+
+            flex
+            items-center
+            gap-2
+            sm:gap-4
+            md:gap-6
+            text-xs
+            sm:text-sm
+
+          "
+
+        >
 
 
 
@@ -96,14 +97,17 @@ function Navbar() {
             to="/"
 
             className="
-              hover:scale-105
+
+              text-gray-700
+              dark:text-white
+              hover:text-[#1F7A8C]
               transition
-              duration-300
+
             "
 
           >
 
-            <Logo />
+            Home
 
           </Link>
 
@@ -112,168 +116,49 @@ function Navbar() {
 
 
 
+          <a
 
-
-
-          {/* Navigation Links */}
-
-
-
-          <div
+            href="/#features"
 
             className="
 
-              hidden
-              md:flex
-              items-center
-              gap-7
-              font-medium
+              text-gray-700
+              dark:text-white
+              hover:text-[#1F7A8C]
+              transition
 
             "
 
           >
 
+            Features
 
+          </a>
 
 
 
 
 
-            {/* Home */}
 
 
+          <Link
 
-            <Link
+            to="/dashboard"
 
-              to="/"
+            className="
 
-              className={`
+              text-gray-700
+              dark:text-white
+              hover:text-[#1F7A8C]
+              transition
 
+            "
 
-                transition
+          >
 
+            Dashboard
 
-                ${
-                  darkMode
-
-                  ?
-
-                  "text-gray-200 hover:text-[#1F7A8C]"
-
-                  :
-
-                  "text-gray-600 hover:text-[#1F7A8C]"
-
-                }
-
-
-              `}
-
-            >
-
-              Home
-
-            </Link>
-
-
-
-
-
-
-
-
-
-            {/* Features */}
-
-
-
-            <a
-
-              href="/#features"
-
-              className={`
-
-
-                transition
-
-
-                ${
-                  darkMode
-
-                  ?
-
-                  "text-gray-200 hover:text-[#1F7A8C]"
-
-                  :
-
-                  "text-gray-600 hover:text-[#1F7A8C]"
-
-                }
-
-
-              `}
-
-            >
-
-              Features
-
-            </a>
-
-
-
-
-
-
-
-
-
-            {/* Dashboard */}
-
-
-
-            <Link
-
-              to="/dashboard"
-
-              className={`
-
-
-                transition
-
-
-                ${
-                  darkMode
-
-                  ?
-
-                  "text-gray-200 hover:text-[#1F7A8C]"
-
-                  :
-
-                  "text-gray-600 hover:text-[#1F7A8C]"
-
-                }
-
-
-              `}
-
-            >
-
-              Dashboard
-
-            </Link>
-
-
-
-
-
-
-
-          </div>
-
-
-
-
+          </Link>
 
 
 
@@ -287,11 +172,7 @@ function Navbar() {
 
 
 
-
-
-
-        {/* Right Side */}
-
+        {/* RIGHT SIDE */}
 
 
         <div
@@ -300,7 +181,8 @@ function Navbar() {
 
             flex
             items-center
-            gap-4
+            gap-2
+            md:gap-4
 
           "
 
@@ -309,11 +191,7 @@ function Navbar() {
 
 
 
-
-
-
-          {/* Theme Button */}
-
+          {/* THEME BUTTON */}
 
 
           <button
@@ -322,10 +200,9 @@ function Navbar() {
 
             className={`
 
-
-              w-10
-              h-10
-              rounded-xl
+              w-7
+              h-7
+              rounded-lg
               border
               flex
               items-center
@@ -333,18 +210,12 @@ function Navbar() {
               transition
 
 
-
               ${
                 darkMode
-
                 ?
-
                 "border-white/20 text-white hover:bg-white/10"
-
                 :
-
                 "border-[#E1E5F2] text-[#022B3A] hover:bg-[#F5F7FA]"
-
               }
 
 
@@ -352,18 +223,17 @@ function Navbar() {
 
           >
 
-
             {
 
               darkMode
 
               ?
 
-              <Sun size={20}/>
+              <Sun size={14}/>
 
               :
 
-              <Moon size={20}/>
+              <Moon size={14}/>
 
             }
 
@@ -378,37 +248,23 @@ function Navbar() {
 
 
 
-          {/* Login */}
-
+          {/* LOGIN */}
 
 
           <Link
 
             to="/login"
 
-            className={`
+            className="
 
-
-              font-medium
+              text-xs
+              sm:text-sm
+              text-gray-700
+              dark:text-white
+              hover:text-[#1F7A8C]
               transition
 
-
-
-              ${
-                darkMode
-
-                ?
-
-                "text-gray-200 hover:text-[#1F7A8C]"
-
-                :
-
-                "text-gray-600 hover:text-[#1F7A8C]"
-
-              }
-
-
-            `}
+            "
 
           >
 
@@ -424,8 +280,7 @@ function Navbar() {
 
 
 
-          {/* Signup */}
-
+          {/* SIGN UP */}
 
 
           <Link
@@ -434,16 +289,16 @@ function Navbar() {
 
             className="
 
-
               bg-[#1F7A8C]
               text-white
-              px-5
-              py-2.5
-              rounded-xl
-              font-medium
+              text-xs
+              sm:text-sm
+              px-3
+              py-1.5
+              rounded-lg
+              whitespace-nowrap
               hover:bg-[#022B3A]
               transition
-
 
             "
 
@@ -455,21 +310,12 @@ function Navbar() {
 
 
 
-
-
-
-
-
         </div>
 
 
 
 
-
       </div>
-
-
-
 
 
     </nav>
@@ -478,7 +324,6 @@ function Navbar() {
   );
 
 }
-
 
 
 export default Navbar;

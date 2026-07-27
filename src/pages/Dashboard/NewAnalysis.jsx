@@ -27,32 +27,36 @@ function NewAnalysis() {
 
   return (
 
+
     <DashboardLayout>
 
 
-      <div>
+      <div className="w-full max-w-6xl">
 
 
+        {/* Page Header */}
 
-        {/* Header */}
 
-
-        <div className="mb-10">
+        <div className="mb-8">
 
 
           <div
+
             className="
             inline-flex
             items-center
             gap-2
-            px-4
+            px-3
             py-2
+            md:px-4
             rounded-full
             bg-[#1F7A8C]/10
             text-[#1F7A8C]
             font-medium
+            text-sm
             mb-5
             "
+
           >
 
             🚀 Startup Intelligence
@@ -64,12 +68,16 @@ function NewAnalysis() {
 
 
           <h1
+
             className="
-            text-4xl
+            text-2xl
+            sm:text-3xl
+            md:text-4xl
             font-bold
             text-gray-800
             dark:text-white
             "
+
           >
 
             Analyze Your Startup Idea
@@ -81,13 +89,16 @@ function NewAnalysis() {
 
 
           <p
+
             className="
             mt-3
-            text-lg
+            max-w-3xl
+            text-sm
+            md:text-lg
             text-gray-500
             dark:text-gray-400
-            max-w-3xl
             "
+
           >
 
             Describe your startup idea and let PitchPilot AI validate your
@@ -106,18 +117,27 @@ function NewAnalysis() {
 
 
 
-        {/* Idea Input */}
 
 
-        <IdeaForm
+        {/* Idea Form */}
 
-          startupIdea={startupIdea}
 
-          setStartupIdea={setStartupIdea}
+        <div className="w-full">
 
-          setAnalysis={setAnalysis}
 
-        />
+          <IdeaForm
+
+            startupIdea={startupIdea}
+
+            setStartupIdea={setStartupIdea}
+
+            setAnalysis={setAnalysis}
+
+          />
+
+
+        </div>
+
 
 
 
@@ -129,100 +149,118 @@ function NewAnalysis() {
         {/* AI Results */}
 
 
-        <StartupScore
+        <div
 
-          analysis={analysis}
+          className="
+          w-full
+          mt-8
+          space-y-6
+          "
 
-        />
-
-
-
-
-
-        <SWOTAnalysis
-
-          analysis={analysis}
-
-        />
+        >
 
 
+          <StartupScore
 
+            analysis={analysis}
 
-
-        <MarketAnalysis
-
-          analysis={analysis}
-
-        />
+          />
 
 
 
 
 
-        <BusinessStrategy
+          <SWOTAnalysis
 
-          analysis={analysis}
+            analysis={analysis}
 
-        />
-
-
-
-
-
-        <RiskAnalysis
-
-          analysis={analysis}
-
-        />
+          />
 
 
 
 
 
-        <Recommendations
+          <MarketAnalysis
 
-          analysis={analysis}
+            analysis={analysis}
 
-        />
-
-
-
-
-
-        <InvestorPitchCard
-
-          analysis={analysis}
-
-        />
+          />
 
 
 
 
 
+          <BusinessStrategy
+
+            analysis={analysis}
+
+          />
 
 
 
 
-        {/* Actions */}
 
+          <RiskAnalysis
+
+            analysis={analysis}
+
+          />
+
+
+
+
+
+          <Recommendations
+
+            analysis={analysis}
+
+          />
+
+
+
+
+
+          <InvestorPitchCard
+
+            analysis={analysis}
+
+          />
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+        {/* Bottom Actions */}
 
 
         {
+
           analysis && (
 
             <div
 
               className="
+              w-full
               flex
               flex-col
               sm:flex-row
-              justify-center
-              items-center
-              gap-5
+              justify-start
+              items-start
+              gap-4
+              mt-8
               mb-10
               "
 
             >
+
 
 
 
@@ -244,15 +282,33 @@ function NewAnalysis() {
 
 
                 className="
+
+                w-full
+                sm:w-auto
+
                 bg-[#1F7A8C]
+
                 text-white
-                px-8
-                py-4
+
+                px-6
+                md:px-8
+
+                py-3
+                md:py-4
+
                 rounded-2xl
+
                 font-semibold
+
                 shadow-lg
+
                 hover:bg-[#022B3A]
+
                 transition
+
+                text-sm
+                md:text-base
+
                 "
 
               >
@@ -261,6 +317,7 @@ function NewAnalysis() {
 
 
               </button>
+
 
 
 
@@ -278,10 +335,14 @@ function NewAnalysis() {
 
 
 
+
             </div>
 
+
           )
+
         }
+
 
 
 
@@ -290,6 +351,7 @@ function NewAnalysis() {
 
 
     </DashboardLayout>
+
 
   );
 

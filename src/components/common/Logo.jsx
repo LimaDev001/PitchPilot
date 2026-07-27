@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 
 function Logo() {
 
-
   return (
 
     <Link
@@ -14,44 +13,36 @@ function Logo() {
       className="
         flex
         items-center
-        gap-3
+        gap-1.5
       "
 
     >
 
 
-
-
-
-      {/* Logo Icon */}
-
+      {/* Icon */}
 
       <div
 
         className="
-          w-11
-          h-11
-          rounded-2xl
+          w-7
+          h-7
+          rounded-lg
           bg-[#1F7A8C]
           flex
           items-center
           justify-center
-          shadow-lg
+          shadow-sm
         "
 
       >
 
-
         <Send
 
-          size={24}
+          size={14}
 
-          className="
-            text-white
-          "
+          className="text-white"
 
         />
-
 
       </div>
 
@@ -59,16 +50,14 @@ function Logo() {
 
 
 
-
-
-
-      {/* Logo Text */}
-
+      {/* Desktop Logo Text */}
 
       <span
 
         className="
-          text-2xl
+          hidden
+          sm:block
+          text-lg
           font-bold
           text-[#022B3A]
           dark:text-white
@@ -79,15 +68,34 @@ function Logo() {
 
         PitchPilot
 
-
       </span>
 
 
 
 
 
-    </Link>
+      {/* Mobile Logo */}
 
+      <span
+
+        className="
+          block
+          sm:hidden
+          text-base
+          font-bold
+          text-[#022B3A]
+          dark:text-white
+        "
+
+      >
+
+        PP
+
+      </span>
+
+
+
+    </Link>
 
   );
 

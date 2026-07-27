@@ -7,7 +7,6 @@ import { motion } from "framer-motion";
 import { useTheme } from "../../context/ThemeContext";
 
 
-
 const benefits = [
 
   "Validate ideas before investing time and money.",
@@ -37,8 +36,11 @@ function WhyPitchPilot() {
 
       className={`
 
-        py-24
-        px-6
+        py-16
+        px-4
+        md:py-24
+        md:px-6
+
         transition-colors
         duration-300
 
@@ -58,20 +60,25 @@ function WhyPitchPilot() {
 
 
 
-
       <div
 
         className="
+
           max-w-7xl
           mx-auto
+
           grid
+
           lg:grid-cols-[6fr_4fr]
-          gap-12
+
+          gap-8
+          md:gap-12
+
           items-center
+
         "
 
       >
-
 
 
 
@@ -86,10 +93,12 @@ function WhyPitchPilot() {
 
 
           className="
+
             flex
             flex-col
             items-center
             text-center
+
           "
 
 
@@ -126,10 +135,17 @@ function WhyPitchPilot() {
           <p
 
             className="
+
               text-[#1F7A8C]
+
               font-semibold
+
               uppercase
+
               tracking-widest
+
+              text-sm
+
             "
 
           >
@@ -147,14 +163,19 @@ function WhyPitchPilot() {
 
 
 
+
           <h2
 
             className={`
 
-              text-4xl
+              text-3xl
+
               md:text-5xl
+
               font-bold
+
               mt-4
+
               leading-tight
 
 
@@ -170,7 +191,9 @@ function WhyPitchPilot() {
           >
 
             Build with confidence,
+
             <br />
+
             not with guesswork.
 
 
@@ -188,8 +211,12 @@ function WhyPitchPilot() {
 
             className={`
 
-              text-lg
-              mt-6
+              text-base
+
+              md:text-lg
+
+              mt-5
+
               max-w-xl
 
 
@@ -223,7 +250,7 @@ function WhyPitchPilot() {
 
 
 
-          <div className="mt-10 space-y-5 text-left">
+          <div className="mt-8 space-y-4 text-left">
 
 
 
@@ -238,9 +265,13 @@ function WhyPitchPilot() {
 
 
                   className="
+
                     flex
+
                     items-start
-                    gap-4
+
+                    gap-3
+
                   "
 
 
@@ -270,16 +301,23 @@ function WhyPitchPilot() {
 
 
 
+
                   <CheckCircle
 
                     className="
+
                       text-[#1F7A8C]
+
                       mt-1
+
+                      flex-shrink-0
+
                     "
 
-                    size={24}
+                    size={20}
 
                   />
+
 
 
 
@@ -289,7 +327,9 @@ function WhyPitchPilot() {
 
                     className={`
 
-                      text-lg
+                      text-sm
+
+                      md:text-lg
 
 
                       ${
@@ -321,12 +361,14 @@ function WhyPitchPilot() {
 
           </div>
 
+          
+
+
 
 
 
 
         </motion.div>
-
 
 
 
@@ -345,12 +387,20 @@ function WhyPitchPilot() {
 
 
 
+
         <motion.div
 
 
           className="
+
             flex
+
             justify-center
+
+            mt-8
+
+            lg:mt-0
+
           "
 
 
@@ -384,14 +434,24 @@ function WhyPitchPilot() {
 
 
 
+
           <div
 
 
             className={`
 
               rounded-3xl
-              p-10
-              w-[380px]
+
+              p-6
+
+              w-[300px]
+
+              sm:w-[350px]
+
+              md:p-10
+
+              md:w-[380px]
+
               shadow-2xl
 
 
@@ -413,19 +473,19 @@ function WhyPitchPilot() {
 
 
 
-            <div className="flex items-center gap-3 mb-8">
+            <div className="flex items-center gap-3 mb-6">
 
 
               <TrendingUp
 
-                size={32}
+                size={28}
 
                 className="text-[#BFDBF7]"
 
               />
 
 
-              <h3 className="text-2xl font-bold text-white">
+              <h3 className="text-xl md:text-2xl font-bold text-white">
 
                 Startup Score
 
@@ -446,7 +506,7 @@ function WhyPitchPilot() {
 
 
 
-              <p className="text-gray-300">
+              <p className="text-gray-300 text-sm">
 
                 AI Confidence
 
@@ -457,10 +517,17 @@ function WhyPitchPilot() {
               <h2
 
                 className="
-                  text-5xl
+
+                  text-4xl
+
+                  md:text-5xl
+
                   font-bold
+
                   text-[#BFDBF7]
+
                   mt-2
+
                 "
 
               >
@@ -481,22 +548,35 @@ function WhyPitchPilot() {
 
 
 
+
+
+
             <div
 
               className="
+
                 border-t
+
                 border-white/20
-                mt-8
-                pt-6
+
+                mt-6
+
+                pt-5
+
                 space-y-4
+
                 text-white
+
               "
 
             >
 
 
 
-              <div className="flex justify-between">
+
+
+              <div className="flex justify-between text-sm">
+
 
                 <span className="text-gray-300">
 
@@ -504,11 +584,13 @@ function WhyPitchPilot() {
 
                 </span>
 
+
                 <span>
 
                   High
 
                 </span>
+
 
               </div>
 
@@ -516,7 +598,11 @@ function WhyPitchPilot() {
 
 
 
-              <div className="flex justify-between">
+
+
+
+
+              <div className="flex justify-between text-sm">
 
 
                 <span className="text-gray-300">
@@ -540,7 +626,10 @@ function WhyPitchPilot() {
 
 
 
-              <div className="flex justify-between">
+
+
+
+              <div className="flex justify-between text-sm">
 
 
                 <span className="text-gray-300">
@@ -563,6 +652,8 @@ function WhyPitchPilot() {
 
 
 
+
+
             </div>
 
 
@@ -570,7 +661,10 @@ function WhyPitchPilot() {
 
 
 
+
           </div>
+
+
 
 
 
@@ -586,6 +680,7 @@ function WhyPitchPilot() {
 
 
       </div>
+
 
 
 

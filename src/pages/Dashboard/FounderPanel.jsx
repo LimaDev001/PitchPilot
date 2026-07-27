@@ -29,6 +29,7 @@ const [search,setSearch] = useState("");
 
 
 
+
 async function getUsers(){
 
 
@@ -42,7 +43,13 @@ const {data,error}=await supabase
 
 .select("*")
 
-.order("created_at",{ascending:false});
+.order(
+"created_at",
+{
+ascending:false
+}
+);
+
 
 
 
@@ -92,12 +99,16 @@ getUsers();
 
 
 
+
+// DELETE USER FROM AUTH + PROFILE
+
+
 async function deleteUser(id){
 
 
 const confirmDelete =
 window.confirm(
-"Delete this user?"
+"Delete this user permanently?"
 );
 
 
@@ -107,28 +118,90 @@ if(!confirmDelete) return;
 
 
 
-const {error}=await supabase
 
-.from("profiles")
-
-.delete()
-
-.eq("id",id);
+try{
 
 
 
+const { data: sessionData } =
+await supabase.auth.getSession();
 
-if(error){
 
-alert(error.message);
 
-return;
+const response = await fetch(
+
+"https://YOUR_PROJECT.supabase.co/functions/v1/delete-user",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json",
+
+"Authorization":
+`Bearer ${sessionData.session?.access_token}`
+
+},
+
+
+body:JSON.stringify({
+
+userId:id
+
+})
+
+
+}
+
+);
+
+
+
+
+
+const result =
+await response.json();
+
+
+
+
+
+
+if(!response.ok){
+
+throw new Error(
+result.message
+);
 
 }
 
 
 
+
+
+alert(
+"User deleted successfully"
+);
+
+
+
 getUsers();
+
+
+
+
+
+}
+
+catch(error){
+
+
+alert(error.message);
+
+
+}
 
 
 
@@ -144,31 +217,31 @@ getUsers();
 
 const filteredUsers = users.filter((user)=>
 
+
 user.name
 ?.toLowerCase()
-.includes(search.toLowerCase())
+.includes(
+search.toLowerCase()
+)
+
 
 ||
 
+
 user.email
 ?.toLowerCase()
-.includes(search.toLowerCase())
+.includes(
+search.toLowerCase()
+)
 
 
 );
-
-
-
-
-
-
-
-
 
 return(
 
 
 <div className="space-y-8">
+
 
 
 
@@ -225,6 +298,8 @@ Manage your PitchPilot users and platform activity.
 
 
 
+
+
 {/* Stats */}
 
 
@@ -238,6 +313,7 @@ gap-6
 "
 
 >
+
 
 
 
@@ -258,7 +334,9 @@ dark:border-gray-700
 
 >
 
+
 <Users className="text-[#1F7A8C]"/>
+
 
 
 <p className="
@@ -269,6 +347,8 @@ mt-4
 Total Users
 
 </p>
+
+
 
 
 <h2 className="
@@ -285,6 +365,7 @@ dark:text-white
 
 
 </div>
+
 
 
 
@@ -318,6 +399,7 @@ Platform
 </p>
 
 
+
 <h2 className="
 text-4xl
 font-bold
@@ -328,6 +410,7 @@ text-[#1F7A8C]
 AI
 
 </h2>
+
 
 
 </div>
@@ -365,6 +448,7 @@ Status
 </p>
 
 
+
 <h2 className="
 text-4xl
 font-bold
@@ -377,14 +461,19 @@ Online
 </h2>
 
 
+
+</div>
+
+
+
+
+
+
 </div>
 
 
 
 
-
-
-</div>
 
 
 
@@ -417,6 +506,7 @@ dark:border-gray-700
 
 
 
+
 <div className="
 flex
 flex-col
@@ -425,6 +515,7 @@ justify-between
 gap-4
 mb-6
 ">
+
 
 
 <h2 className="
@@ -441,15 +532,22 @@ Users
 
 
 
+
+
+
 <div className="
 flex
 gap-3
 ">
 
 
+
+
+
 <div className="
 relative
 ">
+
 
 
 <Search
@@ -464,6 +562,9 @@ text-gray-400
 "
 
 />
+
+
+
 
 
 <input
@@ -486,7 +587,10 @@ outline-none
 />
 
 
+
+
 </div>
+
 
 
 
@@ -516,218 +620,310 @@ text-white
 
 
 
-</div>
-
-
 
 </div>
 
 
 
 
-
-
-
-
-
-{/* User Cards */}
-
-
-
-
-<div className="space-y-4">
-
-
-
-{
-
-loading ?
-
-
-<p>
-Loading users...
-</p>
-
-
-:
-
-
-filteredUsers.map((user)=>(
-
-
-<motion.div
-
-
-key={user.id}
-
-
-initial={{
-opacity:0,
-y:10
-}}
-
-
-animate={{
-opacity:1,
-y:0
-}}
-
-
-
-className="
-flex
-items-center
-justify-between
-bg-gray-50
-dark:bg-white/5
-rounded-2xl
-p-5
-"
-
-
->
-
-
-
-
-<div className="
-flex
-items-center
-gap-4
-">
-
-
-<div className="
-w-12
-h-12
-rounded-full
-bg-[#1F7A8C]
-text-white
-flex
-items-center
-justify-center
-font-bold
-">
-
-{
-
-user.name
-?.charAt(0)
-}
-
 </div>
 
+ {/* User Cards */}
 
 
 
 
-<div>
+        <div className="space-y-4">
 
 
-<h3 className="
-font-semibold
-dark:text-white
-">
 
-{user.name}
+        {
 
-</h3>
 
+        loading ?
 
 
-<p className="
-text-sm
-text-gray-500
-flex
-items-center
-gap-2
-">
+        (
 
-<Mail size={14}/>
+          <p>
 
-{user.email}
+            Loading users...
 
-</p>
+          </p>
 
 
-<p className="
-text-xs
-text-[#1F7A8C]
-mt-1
-">
+        )
 
-{user.role}
 
-</p>
+        :
 
 
+        filteredUsers.map((user)=>(
 
-</div>
 
 
-</div>
+          <motion.div
 
 
+          key={user.id}
 
 
+          initial={{
 
+            opacity:0,
 
+            y:10
 
-<button
+          }}
 
-onClick={()=>deleteUser(user.id)}
 
-className="
-p-3
-rounded-xl
-text-red-500
-hover:bg-red-100
-dark:hover:bg-red-500/10
-"
 
+          animate={{
 
->
+            opacity:1,
 
-<Trash2 size={20}/>
+            y:0
 
+          }}
 
-</button>
 
 
 
 
 
-</motion.div>
+          className="
+          flex
+          items-center
+          justify-between
+          bg-gray-50
+          dark:bg-white/5
+          rounded-2xl
+          p-5
+          "
 
 
+          >
 
-))
 
 
-}
 
 
 
-</div>
 
+            <div
 
+            className="
+            flex
+            items-center
+            gap-4
+            "
 
+            >
 
 
 
 
-</div>
 
+              <div
 
+              className="
+              w-12
+              h-12
+              rounded-full
+              bg-[#1F7A8C]
+              text-white
+              flex
+              items-center
+              justify-center
+              font-bold
+              "
 
+              >
 
 
+              {
 
 
-</div>
+              user.name
 
+              ?.charAt(0)
 
-);
+
+              }
+
+
+
+              </div>
+
+
+
+
+
+
+
+
+
+              <div>
+
+
+
+
+                <h3
+
+                className="
+                font-semibold
+                dark:text-white
+                "
+
+                >
+
+                {user.name}
+
+
+                </h3>
+
+
+
+
+
+
+
+                <p
+
+                className="
+                text-sm
+                text-gray-500
+                flex
+                items-center
+                gap-2
+                "
+
+                >
+
+
+                <Mail size={14}/>
+
+
+                {user.email}
+
+
+                </p>
+
+
+
+
+
+
+
+                <p
+
+                className="
+                text-xs
+                text-[#1F7A8C]
+                mt-1
+                "
+
+                >
+
+
+                {user.role}
+
+
+                </p>
+
+
+
+
+
+
+
+              </div>
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+            <button
+
+
+
+            onClick={()=>deleteUser(user.id)}
+
+
+
+            className="
+            p-3
+            rounded-xl
+            text-red-500
+            hover:bg-red-100
+            dark:hover:bg-red-500/10
+            "
+
+
+
+            >
+
+
+
+            <Trash2 size={20}/>
+
+
+
+            </button>
+
+
+
+
+
+
+
+          </motion.div>
+
+
+
+
+        ))
+
+
+
+        }
+
+
+
+
+        </div>
+
+
+
+
+
+
+
+
+
+      </div>
+
+
+
+
+
+
+
+
+    </div>
+
+
+  );
 
 
 }
