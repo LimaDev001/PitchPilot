@@ -15,23 +15,14 @@ import {
 
 import DashboardLayout from "../Dashboard/DashboardLayout";
 import { supabase } from "../../lib/supabase";
-
 import { generatePDF } from "../../utils/generatePDF";
-
 
 
 function History(){
 
-
-const [analyses,setAnalyses]=useState([]);
-
-const [search,setSearch]=useState("");
-
-const [loading,setLoading]=useState(true);
-
-
-
-
+const [analyses,setAnalyses] = useState([]);
+const [search,setSearch] = useState("");
+const [loading,setLoading] = useState(true);
 
 
 
@@ -45,10 +36,9 @@ loadHistory();
 
 
 
-
-
-
 async function loadHistory(){
+
+try{
 
 
 const {
@@ -69,7 +59,6 @@ return;
 
 
 
-
 const {data,error}=await supabase
 
 .from("analyses")
@@ -83,18 +72,11 @@ const {data,error}=await supabase
 
 
 
-
-if(error){
-
-console.log(error.message);
-
-setLoading(false);
-
-return;
-
+if (error) {
+  console.error(error);
+  alert(error.message);
+  return;
 }
-
-
 
 
 
@@ -106,6 +88,16 @@ setLoading(false);
 
 }
 
+catch(error){
+
+console.log(error);
+
+setLoading(false);
+
+}
+
+
+}
 
 
 
@@ -113,8 +105,41 @@ setLoading(false);
 
 
 
+// ✅ FINAL DELETE FIX
 
 async function deleteAnalysis(id){
+
+
+const confirmDelete = window.confirm(
+"Are you sure you want to delete this analysis?"
+);
+
+
+
+if(!confirmDelete) return;
+
+
+
+try{
+
+
+const {
+data:{
+user
+}
+}=await supabase.auth.getUser();
+
+
+
+if(!user){
+
+alert("User not found");
+
+return;
+
+}
+
+
 
 
 const {error}=await supabase
@@ -123,13 +148,17 @@ const {error}=await supabase
 
 .delete()
 
-.eq("id",id);
+.eq("id",id)
+
+.eq("user_id",user.id);
 
 
 
 
 
 if(error){
+
+console.log(error.message);
 
 alert(error.message);
 
@@ -140,17 +169,38 @@ return;
 
 
 
+// remove instantly
 
-setAnalyses(
+setAnalyses((old)=>
 
-analyses.filter(
 
-item=>item.id!==id
+old.filter(
+
+(item)=>item.id !== id
 
 )
 
+
 );
 
+
+
+
+// get fresh data
+
+await loadHistory();
+
+
+
+}
+
+catch(error){
+
+console.log(error);
+
+alert("Delete failed");
+
+}
 
 
 }
@@ -160,17 +210,16 @@ item=>item.id!==id
 
 
 
-
-
-
 function downloadPDF(item){
 
 
-let swot = {};
+let swot={};
 
 try{
 
-swot = JSON.parse(item.swot_report || "{}");
+swot=JSON.parse(
+item.swot_report || "{}"
+);
 
 }
 
@@ -182,11 +231,13 @@ swot={};
 
 
 
-let market = {};
+let market={};
 
 try{
 
-market = JSON.parse(item.market_analysis || "{}");
+market=JSON.parse(
+item.market_analysis || "{}"
+);
 
 }
 
@@ -198,11 +249,13 @@ market={};
 
 
 
-let strategy = {};
+let strategy={};
 
 try{
 
-strategy = JSON.parse(item.business_strategy || "{}");
+strategy=JSON.parse(
+item.business_strategy || "{}"
+);
 
 }
 
@@ -214,11 +267,13 @@ strategy={};
 
 
 
-let risks = [];
+let risks=[];
 
 try{
 
-risks = JSON.parse(item.risks || "[]");
+risks=JSON.parse(
+item.risks || "[]"
+);
 
 }
 
@@ -230,11 +285,13 @@ risks=[];
 
 
 
-let recommendations = [];
+let recommendations=[];
 
 try{
 
-recommendations = JSON.parse(item.recommendations || "[]");
+recommendations=JSON.parse(
+item.recommendations || "[]"
+);
 
 }
 
@@ -246,11 +303,7 @@ recommendations=[];
 
 
 
-
-
-
-
-const savedAnalysis = {
+const savedAnalysis={
 
 
 score:item.confidence || 0,
@@ -258,40 +311,28 @@ score:item.confidence || 0,
 
 strengths:swot.strengths || [],
 
-
 weaknesses:swot.weaknesses || [],
-
 
 opportunities:swot.opportunities || [],
 
-
 threats:swot.threats || [],
-
 
 
 marketAnalysis:market,
 
 
-
 businessStrategy:strategy,
-
 
 
 risks:risks,
 
 
-
 recommendations:recommendations,
-
 
 
 pitch:item.investor_pitch || ""
 
-
-
 };
-
-
 
 
 
@@ -304,11 +345,7 @@ item.idea
 );
 
 
-
 }
-
-
-
 
 
 
@@ -318,33 +355,19 @@ item.idea
 const filteredAnalyses = analyses.filter(item=>
 
 item.idea
-
 ?.toLowerCase()
-
 .includes(
-
 search.toLowerCase()
-
 )
 
 );
 
-
-
-
-
-
-
-
-
 return(
-
 
 <DashboardLayout>
 
 
 <div className="space-y-8">
-
 
 
 
@@ -367,6 +390,7 @@ justify-center
 
 >
 
+
 <HistoryIcon
 
 size={28}
@@ -382,8 +406,8 @@ className="text-[#1F7A8C]"
 
 
 
-
 <div>
+
 
 <h1
 
@@ -473,8 +497,6 @@ dark:text-white
 
 
 
-
-
 {
 
 loading &&
@@ -486,8 +508,6 @@ Loading history...
 </div>
 
 }
-
-
 
 
 
@@ -510,6 +530,7 @@ No saved analysis
 </h2>
 
 
+
 <p className="mt-2">
 
 Create your first startup analysis.
@@ -521,7 +542,6 @@ Create your first startup analysis.
 
 
 }
-
 
 
 
@@ -558,10 +578,7 @@ shadow-sm
 
 
 
-
-
-
-<div className="flex justify-between">
+<div className="flex justify-between items-start gap-4">
 
 
 <div>
@@ -578,6 +595,7 @@ className="text-[#1F7A8C]"
 
 
 
+
 <h2
 
 className="
@@ -588,11 +606,10 @@ dark:text-white
 
 >
 
-
 {item.idea}
 
-
 </h2>
+
 
 
 </div>
@@ -601,12 +618,9 @@ dark:text-white
 
 
 
-
 <p className="text-gray-500 mt-3">
 
-
 Saved analysis report
-
 
 </p>
 
@@ -615,43 +629,7 @@ Saved analysis report
 </div>
 
 
-
-
-
-
-
-<button
-
-
-onClick={()=>deleteAnalysis(item.id)}
-
-
-className="
-p-3
-rounded-xl
-bg-red-50
-text-red-500
-"
-
-
->
-
-
-<Trash2 size={18}/>
-
-
-</button>
-
-
-
-
-
 </div>
-
-
-
-
-
 
 
 
@@ -677,6 +655,7 @@ title="AI Score"
 value={`${item.confidence || 0}/100`}
 
 />
+
 
 
 
@@ -720,7 +699,7 @@ value="Generated"
 
 
 
-<div className="flex gap-4 mt-7">
+<div className="flex gap-4 mt-7 items-center">
 
 
 <Link
@@ -745,6 +724,7 @@ rounded-xl
 
 
 <Eye size={18}/>
+
 
 View Report
 
@@ -791,9 +771,32 @@ PDF
 
 
 
+
+
+
+<button
+onClick={()=>deleteAnalysis(item.id)}
+className="
+w-11
+h-11
+flex
+items-center
+justify-center
+rounded-xl
+bg-red-50
+text-red-500
+shrink-0
+"
+>
+<Trash2 size={18}/>
+</button>
+
+
+
+
+
+
 </div>
-
-
 
 
 
@@ -819,20 +822,15 @@ PDF
 
 
 
-
-
 </div>
 
 
 </DashboardLayout>
 
-
 );
 
 
 }
-
-
 
 
 
@@ -866,11 +864,13 @@ p-5
 
 
 
+
 <p className="text-gray-500 mt-3">
 
 {title}
 
 </p>
+
 
 
 
@@ -887,6 +887,7 @@ dark:text-white
 {value}
 
 </h3>
+
 
 
 
