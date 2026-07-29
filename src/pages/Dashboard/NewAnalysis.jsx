@@ -31,13 +31,13 @@ function NewAnalysis() {
     <DashboardLayout>
 
 
-      <div className="w-full max-w-6xl">
+      <div className="w-full max-w-6xl mx-auto overflow-hidden">
 
 
         {/* Page Header */}
 
 
-        <div className="mb-8">
+        <div className="mb-8 text-left">
 
 
           <div
@@ -76,6 +76,7 @@ function NewAnalysis() {
             font-bold
             text-gray-800
             dark:text-white
+            break-words
             "
 
           >
@@ -97,6 +98,7 @@ function NewAnalysis() {
             md:text-lg
             text-gray-500
             dark:text-gray-400
+            break-words
             "
 
           >
@@ -115,14 +117,10 @@ function NewAnalysis() {
 
 
 
-
-
-
-
         {/* Idea Form */}
 
 
-        <div className="w-full">
+        <div className="w-full overflow-hidden">
 
 
           <IdeaForm
@@ -142,10 +140,6 @@ function NewAnalysis() {
 
 
 
-
-
-
-
         {/* AI Results */}
 
 
@@ -155,6 +149,7 @@ function NewAnalysis() {
           w-full
           mt-8
           space-y-6
+          overflow-hidden
           "
 
         >
@@ -230,19 +225,10 @@ function NewAnalysis() {
 
         </div>
 
-
-
-
-
-
-
-
-
-        {/* Bottom Actions */}
+                {/* Bottom Actions */}
 
 
         {
-
           analysis && (
 
             <div
@@ -252,10 +238,10 @@ function NewAnalysis() {
               flex
               flex-col
               sm:flex-row
-              justify-start
-              items-start
-              gap-4
-              mt-8
+              justify-center
+              items-center
+              gap-5
+              mt-10
               mb-10
               "
 
@@ -270,6 +256,7 @@ function NewAnalysis() {
 
                 onClick={()=>
 
+
                   generatePDF(
 
                     analysis,
@@ -278,36 +265,49 @@ function NewAnalysis() {
 
                   )
 
+
                 }
+
 
 
                 className="
 
                 w-full
-                sm:w-auto
+
+                sm:w-[280px]
+
+                h-[64px]
+
 
                 bg-[#1F7A8C]
 
                 text-white
 
-                px-6
-                md:px-8
-
-                py-3
-                md:py-4
 
                 rounded-2xl
 
-                font-semibold
+
+                font-bold
+
+
+                text-base
+
 
                 shadow-lg
 
+
                 hover:bg-[#022B3A]
+
 
                 transition
 
-                text-sm
-                md:text-base
+
+                flex
+
+                items-center
+
+                justify-center
+
 
                 "
 
@@ -324,13 +324,31 @@ function NewAnalysis() {
 
 
 
-              <SaveAnalysis
 
-                startupIdea={startupIdea}
 
-                analysis={analysis}
+              <div
 
-              />
+                className="
+                w-full
+                sm:w-[280px]
+                "
+
+              >
+
+
+                <SaveAnalysis
+
+
+                  startupIdea={startupIdea}
+
+
+                  analysis={analysis}
+
+
+                />
+
+
+              </div>
 
 
 
@@ -340,9 +358,7 @@ function NewAnalysis() {
 
 
           )
-
         }
-
 
 
 
@@ -355,8 +371,8 @@ function NewAnalysis() {
 
   );
 
-}
 
+}
 
 
 export default NewAnalysis;

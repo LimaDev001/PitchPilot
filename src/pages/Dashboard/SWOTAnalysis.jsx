@@ -15,7 +15,6 @@ function SWOTAnalysis({ analysis }) {
 
 
 
-
   const swotData = [
 
     {
@@ -61,11 +60,10 @@ function SWOTAnalysis({ analysis }) {
 
 
 
-
   return (
 
 
-    <section className="mb-10">
+    <section className="mb-10 w-full max-w-full overflow-hidden">
 
 
 
@@ -102,10 +100,12 @@ function SWOTAnalysis({ analysis }) {
         <h3
 
           className="
-            text-3xl
+            text-2xl
+            sm:text-3xl
             font-bold
             text-[#022B3A]
             dark:text-white
+            break-words
           "
 
         >
@@ -124,6 +124,9 @@ function SWOTAnalysis({ analysis }) {
             text-gray-500
             dark:text-gray-400
             mt-2
+            text-sm
+            sm:text-base
+            break-words
           "
 
         >
@@ -154,8 +157,9 @@ function SWOTAnalysis({ analysis }) {
         className="
           grid
           grid-cols-1
-          md:grid-cols-2
-          gap-6
+          gap-5
+          w-full
+          max-w-full
         "
 
       >
@@ -205,13 +209,17 @@ function SWOTAnalysis({ analysis }) {
 
 
                 className="
+                  w-full
+                  max-w-full
+                  overflow-hidden
                   bg-white
                   dark:bg-gray-900
                   border
                   border-[#E1E5F2]
                   dark:border-gray-700
                   rounded-3xl
-                  p-6
+                  p-4
+                  sm:p-6
                   shadow-sm
                   hover:shadow-xl
                   hover:-translate-y-2
@@ -232,7 +240,7 @@ function SWOTAnalysis({ analysis }) {
                   className="
                     flex
                     items-center
-                    gap-4
+                    gap-3
                     mb-5
                   "
 
@@ -245,8 +253,10 @@ function SWOTAnalysis({ analysis }) {
 
                     className={`
 
-                      w-14
-                      h-14
+                      w-12
+                      h-12
+                      sm:w-14
+                      sm:h-14
                       rounded-2xl
 
                       ${item.bg}
@@ -254,6 +264,7 @@ function SWOTAnalysis({ analysis }) {
                       flex
                       items-center
                       justify-center
+                      flex-shrink-0
 
                     `}
 
@@ -262,7 +273,7 @@ function SWOTAnalysis({ analysis }) {
 
                     <Icon
 
-                      size={28}
+                      size={26}
 
                       className={item.color}
 
@@ -278,10 +289,12 @@ function SWOTAnalysis({ analysis }) {
                   <h4
 
                     className="
-                      text-xl
+                      text-lg
+                      sm:text-xl
                       font-bold
                       text-[#022B3A]
                       dark:text-white
+                      break-words
                     "
 
                   >
@@ -305,7 +318,7 @@ function SWOTAnalysis({ analysis }) {
 
 
 
-                <ul className="space-y-3">
+                <ul className="space-y-3 w-full">
 
 
                   {
@@ -322,19 +335,31 @@ function SWOTAnalysis({ analysis }) {
                           flex
                           gap-3
                           leading-relaxed
+                          break-words
+                          overflow-wrap-anywhere
+                          text-sm
+                          sm:text-base
                         "
 
                       >
 
 
-                        <span className="text-[#1F7A8C] font-bold">
+                        <span className="
+                          text-[#1F7A8C]
+                          font-bold
+                          flex-shrink-0
+                        ">
 
                           ✓
 
                         </span>
 
 
-                        {point}
+                        <span className="break-words">
+
+                          {point}
+
+                        </span>
 
 
                       </li>

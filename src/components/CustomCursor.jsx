@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Send } from "lucide-react";
 import { useTheme } from "../context/ThemeContext";
 
@@ -6,262 +6,268 @@ import { useTheme } from "../context/ThemeContext";
 function CustomCursor(){
 
 
-const target = useRef({
-  x:0,
-  y:0
-});
+  const [position,setPosition] = useState({
+
+    x:0,
+
+    y:0
+
+  });
 
 
-const [position,setPosition] = useState({
-  x:0,
-  y:0
-});
+  const [show,setShow] = useState(false);
 
 
-const [show,setShow] = useState(false);
-
-
-const { darkMode } = useTheme();
+  const { darkMode } = useTheme();
 
 
 
 
 
-
-useEffect(()=>{
-
-
-function move(e){
+  useEffect(()=>{
 
 
-target.current = {
 
-x:e.clientX,
-
-y:e.clientY
-
-};
+    function move(e){
 
 
-setShow(true);
+      setPosition({
+
+        x:e.clientX,
+
+        y:e.clientY
+
+      });
+
+
+      setShow(true);
+
+
+    }
+
+
+
+
+
+    function mouseLeave(){
+
+
+      setShow(false);
+
+
+    }
+
+
+
+
+
+    function mouseEnter(){
+
+
+      setShow(true);
+
+
+    }
+
+
+
+
+
+
+
+    document.addEventListener(
+
+      "mousemove",
+
+      move
+
+    );
+
+
+
+    document.addEventListener(
+
+      "mouseleave",
+
+      mouseLeave
+
+    );
+
+
+
+    document.addEventListener(
+
+      "mouseenter",
+
+      mouseEnter
+
+    );
+
+
+
+
+
+
+
+    return()=>{
+
+
+      document.removeEventListener(
+
+        "mousemove",
+
+        move
+
+      );
+
+
+      document.removeEventListener(
+
+        "mouseleave",
+
+        mouseLeave
+
+      );
+
+
+      document.removeEventListener(
+
+        "mouseenter",
+
+        mouseEnter
+
+      );
+
+
+    };
+
+
+
+  },[]);
+
+
+
+
+
+
+
+
+  if(!show) return null;
+
+
+
+
+
+
+
+  return(
+
+
+    <>
+
+
+      <style>
+
+      {`
+
+      *{
+
+        cursor:none !important;
+
+      }
+
+      `}
+
+      </style>
+
+
+
+
+
+
+
+      <div
+
+
+        className="
+
+        fixed
+
+        pointer-events-none
+
+        z-[999999]
+
+        "
+
+
+        style={{
+
+          left:position.x,
+
+          top:position.y,
+
+          transform:"translate(-50%, -50%)"
+
+        }}
+
+
+
+      >
+
+
+        <Send
+
+
+          size={18}
+
+
+          strokeWidth={2.5}
+
+
+          className={`
+
+          drop-shadow-lg
+
+
+          ${
+            darkMode
+
+            ?
+
+            "text-[#BFDBF7]"
+
+            :
+
+            "text-[#022B3A]"
+
+          }
+
+          `}
+
+
+
+          style={{
+
+            transform:"rotate(-90deg)"
+
+          }}
+
+
+
+        />
+
+
+      </div>
+
+
+
+    </>
+
+
+  );
 
 
 }
-
-
-
-
-
-window.addEventListener(
-"mousemove",
-move
-);
-
-
-
-
-
-
-let animation;
-
-
-
-function animate(){
-
-
-setPosition(prev=>({
-
-
-x:
-prev.x +
-(target.current.x - prev.x) * 0.9,
-
-
-y:
-prev.y +
-(target.current.y - prev.y) * 0.9
-
-
-}));
-
-
-animation = requestAnimationFrame(
-animate
-);
-
-
-}
-
-
-
-
-
-
-animate();
-
-
-
-
-
-
-
-return()=>{
-
-
-window.removeEventListener(
-"mousemove",
-move
-);
-
-
-cancelAnimationFrame(animation);
-
-
-};
-
-
-
-},[]);
-
-
-
-
-
-
-
-if(!show) return null;
-
-
-
-
-
-
-
-
-return(
-
-
-<>
-
-
-<style>
-
-{`
-
-*{
-
-cursor:none !important;
-
-}
-
-`}
-
-</style>
-
-
-
-
-
-
-
-
-
-<div
-
-
-className="
-
-fixed
-
-z-[9999]
-
-pointer-events-none
-
-"
-
-
-
-style={{
-
-
-left:position.x,
-
-top:position.y
-
-
-}}
-
-
-
->
-
-
-<Send
-
-
-size={18}
-
-
-strokeWidth={2.5}
-
-
-className={`
-
-drop-shadow-lg
-
-
-transition-colors
-
-duration-300
-
-
-${
-
-darkMode
-
-?
-
-"text-[#BFDBF7]"
-
-:
-
-"text-[#022B3A]"
-
-}
-
-`}
-
-
-
-style={{
-
-
-transform:"rotate(-90deg)"
-
-
-}}
-
-
-
-/>
-
-
-</div>
-
-
-
-
-
-
-
-</>
-
-
-);
-
-
-}
-
 
 
 export default CustomCursor;

@@ -52,6 +52,7 @@ function SaveAnalysis({ startupIdea, analysis }) {
 
 
 
+
       if(!user){
 
         alert("You must be logged in.");
@@ -79,6 +80,7 @@ function SaveAnalysis({ startupIdea, analysis }) {
         idea:startupIdea,
 
 
+
         swot_report:
 
           JSON.stringify({
@@ -95,6 +97,8 @@ function SaveAnalysis({ startupIdea, analysis }) {
 
 
 
+
+
         market_analysis:
 
           JSON.stringify(
@@ -102,6 +106,8 @@ function SaveAnalysis({ startupIdea, analysis }) {
             analysis.marketAnalysis || {}
 
           ),
+
+
 
 
 
@@ -117,6 +123,8 @@ function SaveAnalysis({ startupIdea, analysis }) {
 
 
 
+
+
         risks:
 
           JSON.stringify(
@@ -124,6 +132,8 @@ function SaveAnalysis({ startupIdea, analysis }) {
             analysis.risks || []
 
           ),
+
+
 
 
 
@@ -139,9 +149,13 @@ function SaveAnalysis({ startupIdea, analysis }) {
 
 
 
+
+
         investor_pitch:
 
           analysis.pitch || "",
+
+
 
 
 
@@ -163,6 +177,7 @@ function SaveAnalysis({ startupIdea, analysis }) {
 
 
 
+
       if(error){
 
         console.log(error);
@@ -177,7 +192,9 @@ function SaveAnalysis({ startupIdea, analysis }) {
 
 
 
+
       setSaved(true);
+
 
 
 
@@ -193,6 +210,7 @@ function SaveAnalysis({ startupIdea, analysis }) {
     }
 
 
+
     catch(error){
 
 
@@ -202,6 +220,7 @@ function SaveAnalysis({ startupIdea, analysis }) {
 
 
     }
+
 
 
     finally{
@@ -221,20 +240,30 @@ function SaveAnalysis({ startupIdea, analysis }) {
 
 
 
+
   return (
 
 
     <motion.button
 
 
+
       whileHover={{
-        scale:1.05
+
+        scale:1.04
+
       }}
+
 
 
       whileTap={{
+
         scale:.97
+
       }}
+
+
+
 
 
 
@@ -242,48 +271,87 @@ function SaveAnalysis({ startupIdea, analysis }) {
 
 
 
+
+
       disabled={loading}
 
 
 
+
+
       className="
+
+      w-full
+
+      h-[64px]
+
+
       bg-[#1F7A8C]
+
       hover:bg-[#022B3A]
+
+
       text-white
-      px-8
-      py-4
+
+
       rounded-2xl
-      font-semibold
+
+
+      font-bold
+
+
+      text-base
+
+
       flex
+
       items-center
+
+      justify-center
+
+
       gap-3
+
+
       shadow-lg
+
+
       transition
+
+
       disabled:opacity-50
+
       "
+
 
 
     >
 
 
 
+
+
+
       {
+
         saved
 
         ?
 
-        <Check size={20}/>
+        <Check size={22}/>
 
         :
 
-        <Save size={20}/>
+        <Save size={22}/>
 
       }
 
 
 
 
+
       {
+
         loading
 
         ?
@@ -303,6 +371,8 @@ function SaveAnalysis({ startupIdea, analysis }) {
         "Save Analysis"
 
       }
+
+
 
 
 

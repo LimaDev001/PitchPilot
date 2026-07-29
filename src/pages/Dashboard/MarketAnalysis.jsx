@@ -45,53 +45,97 @@ function MarketAnalysis({ analysis }) {
 
   return (
 
-    <section className="mb-10">
+    <section
+
+      className="
+        mb-10
+        w-full
+        flex
+        justify-center
+      "
+
+    >
+
 
 
       <motion.div
+
 
         initial={{
           opacity:0,
           y:30
         }}
 
+
         whileInView={{
           opacity:1,
           y:0
         }}
 
+
         viewport={{
           once:true
         }}
+
 
         transition={{
           duration:.5
         }}
 
+
+
         className="
-        bg-white
-        dark:bg-gray-900
-        border
-        border-gray-200
-        dark:border-gray-700
-        rounded-3xl
-        p-8
-        shadow-sm
+
+          w-full
+          max-w-5xl
+          mx-auto
+
+          bg-white
+          dark:bg-gray-900
+
+          border
+          border-gray-200
+          dark:border-gray-700
+
+          rounded-3xl
+
+          p-4
+          sm:p-6
+          md:p-8
+
+          shadow-sm
+
         "
+
 
       >
 
 
 
-        <h3 className="
-          text-3xl
-          font-bold
-          text-[#022B3A]
-          dark:text-white
-          mb-6
-        ">
+
+
+        <h3
+
+          className="
+
+            text-2xl
+            sm:text-3xl
+
+            font-bold
+
+            text-[#022B3A]
+            dark:text-white
+
+            mb-6
+
+            text-center
+
+          "
+
+        >
 
           Market Opportunity Analysis
+
 
         </h3>
 
@@ -99,80 +143,222 @@ function MarketAnalysis({ analysis }) {
 
 
 
-        <div className="
-          grid
-          md:grid-cols-2
-          gap-6
-        ">
+
+
+
+
+        <div
+
+          className="
+
+            grid
+
+            grid-cols-1
+            md:grid-cols-2
+
+            gap-5
+
+            w-full
+
+            justify-items-center
+
+          "
+
+        >
+
 
 
         {
+
           cards.map((item,index)=>{
 
 
             const Icon = item.icon;
 
 
+
             return (
 
-              <div
+
+
+              <motion.div
+
 
                 key={index}
 
+
+
+                initial={{
+
+                  opacity:0,
+                  y:20
+
+                }}
+
+
+
+                whileInView={{
+
+                  opacity:1,
+                  y:0
+
+                }}
+
+
+
+                viewport={{
+
+                  once:true
+
+                }}
+
+
+
+                transition={{
+
+                  duration:.4
+
+                }}
+
+
+
                 className="
-                p-5
-                rounded-2xl
-                bg-[#F5F7FA]
-                dark:bg-gray-800
+
+
+                  w-full
+                  max-w-md
+
+
+                  p-4
+                  sm:p-5
+
+
+                  rounded-2xl
+
+
+                  bg-[#F5F7FA]
+
+                  dark:bg-gray-800
+
+
                 "
+
 
               >
 
-                <div className="
-                  flex
-                  items-center
-                  gap-3
-                  mb-3
-                ">
+
+
+
+
+
+                <div
+
+                  className="
+
+                    flex
+                    items-center
+
+                    justify-center
+
+                    gap-3
+
+                    mb-3
+
+                    text-center
+
+                  "
+
+                >
+
+
 
                   <Icon
-                    className="text-[#1F7A8C]"
+
+                    className="
+                      text-[#1F7A8C]
+                      flex-shrink-0
+                    "
+
                     size={24}
+
                   />
 
 
-                  <h4 className="
-                    font-bold
-                    text-[#022B3A]
-                    dark:text-white
-                  ">
+
+
+
+                  <h4
+
+                    className="
+
+                      font-bold
+
+                      text-[#022B3A]
+
+                      dark:text-white
+
+                    "
+
+                  >
 
                     {item.title}
 
+
                   </h4>
+
+
 
 
                 </div>
 
 
-                <p className="
-                  text-gray-600
-                  dark:text-gray-300
-                  leading-relaxed
-                ">
+
+
+
+
+
+
+
+                <p
+
+                  className="
+
+                    text-gray-600
+
+                    dark:text-gray-300
+
+                    leading-relaxed
+
+                    text-sm
+                    sm:text-base
+
+                    text-center
+
+                    break-words
+
+                  "
+
+                >
 
                   {item.text || "No information available"}
+
 
                 </p>
 
 
-              </div>
+
+
+
+              </motion.div>
+
 
             );
 
 
           })
+
         }
+
 
 
         </div>
@@ -180,10 +366,14 @@ function MarketAnalysis({ analysis }) {
 
 
 
+
       </motion.div>
 
 
+
+
     </section>
+
 
   );
 

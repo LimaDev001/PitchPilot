@@ -9,7 +9,6 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 
 
-
 function InvestorPitchCard({ analysis }) {
 
 
@@ -18,7 +17,6 @@ function InvestorPitchCard({ analysis }) {
 
 
   if (!analysis) return null;
-
 
 
 
@@ -47,11 +45,14 @@ function InvestorPitchCard({ analysis }) {
 
 
 
-
   return (
 
 
-    <section className="mb-10">
+    <section className="
+      mb-10
+      w-full
+      overflow-hidden
+    ">
 
 
 
@@ -82,15 +83,20 @@ function InvestorPitchCard({ analysis }) {
 
 
         className="
+          w-full
           rounded-3xl
-          p-8
+          p-4
+          sm:p-6
+          md:p-8
           shadow-xl
           overflow-hidden
           relative
+
           bg-gradient-to-br
           from-[#022B3A]
           via-[#1F7A8C]
           to-[#022B3A]
+
           text-white
         "
 
@@ -125,7 +131,10 @@ function InvestorPitchCard({ analysis }) {
 
 
 
-        <div className="relative">
+
+        <div className="relative w-full">
+
+
 
 
 
@@ -135,7 +144,14 @@ function InvestorPitchCard({ analysis }) {
 
 
 
-          <div className="flex items-center gap-4 mb-8">
+          <div className="
+            flex
+            flex-col
+            sm:flex-row
+            sm:items-center
+            gap-4
+            mb-8
+          ">
 
 
             <div
@@ -148,6 +164,7 @@ function InvestorPitchCard({ analysis }) {
                 flex
                 items-center
                 justify-center
+                flex-shrink-0
               "
 
             >
@@ -171,7 +188,11 @@ function InvestorPitchCard({ analysis }) {
             <div>
 
 
-              <h3 className="text-2xl font-bold">
+              <h3 className="
+                text-xl
+                sm:text-2xl
+                font-bold
+              ">
 
                 Investor Pitch Generator
 
@@ -211,8 +232,10 @@ function InvestorPitchCard({ analysis }) {
               border
               border-white/20
               rounded-3xl
-              p-6
+              p-4
+              sm:p-6
               backdrop-blur-md
+              w-full
             "
 
           >
@@ -220,7 +243,12 @@ function InvestorPitchCard({ analysis }) {
 
 
 
-            <div className="flex items-center gap-3 mb-5">
+            <div className="
+              flex
+              items-center
+              gap-3
+              mb-5
+            ">
 
 
 
@@ -248,19 +276,40 @@ function InvestorPitchCard({ analysis }) {
 
 
 
-            <p
+
+            {/* Scrollable Pitch */}
+
+
+            <div
 
               className="
-                text-white/90
-                leading-relaxed
+                max-h-56
+                sm:max-h-72
+                overflow-y-auto
+                pr-3
+                scrollbar-thin
               "
 
             >
 
-              {analysis.pitch}
+
+              <p
+
+                className="
+                  text-white/90
+                  leading-relaxed
+                  break-words
+                "
+
+              >
+
+                {analysis.pitch}
 
 
-            </p>
+              </p>
+
+
+            </div>
 
 
 
@@ -300,14 +349,19 @@ function InvestorPitchCard({ analysis }) {
 
             className="
               mt-8
+              w-full
+              sm:w-auto
               bg-white
               text-[#022B3A]
-              px-8
-              py-4
+              px-6
+              sm:px-8
+              py-3
+              sm:py-4
               rounded-2xl
               font-semibold
               flex
               items-center
+              justify-center
               gap-3
               shadow-lg
               transition
@@ -358,12 +412,16 @@ function InvestorPitchCard({ analysis }) {
 
 
 
+
         </div>
 
 
 
 
+
       </motion.div>
+
+
 
 
 

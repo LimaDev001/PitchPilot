@@ -6,29 +6,44 @@ import { motion, AnimatePresence } from "framer-motion";
 
 function DashboardLayout({ children }) {
 
+
   const [open, setOpen] = useState(false);
+
 
 
   return (
 
+
     <div
+
       className="
         min-h-screen
+        w-full
         flex
+        overflow-x-hidden
         bg-[#F5F7FA]
         dark:bg-[#022B3A]
         transition-colors
         duration-300
       "
+
     >
 
 
 
-      {/* Mobile Button */}
+
+
+
+
+      {/* Mobile Menu Button */}
+
+
 
       <button
 
+
         onClick={()=>setOpen(!open)}
+
 
         className="
           lg:hidden
@@ -57,7 +72,11 @@ function DashboardLayout({ children }) {
           <Menu size={24}/>
         }
 
+
       </button>
+
+
+
 
 
 
@@ -66,7 +85,10 @@ function DashboardLayout({ children }) {
 
       {/* Desktop Sidebar */}
 
+
+
       <aside
+
 
         className="
           hidden
@@ -78,9 +100,11 @@ function DashboardLayout({ children }) {
           z-40
         "
 
+
       >
 
         <Sidebar />
+
 
       </aside>
 
@@ -91,30 +115,41 @@ function DashboardLayout({ children }) {
 
 
 
+
       {/* Mobile Sidebar */}
+
+
 
       <AnimatePresence>
 
+
       {
+
         open && (
 
+
           <motion.aside
+
 
             initial={{
               x:-300
             }}
 
+
             animate={{
               x:0
             }}
+
 
             exit={{
               x:-300
             }}
 
+
             transition={{
               duration:.3
             }}
+
 
             className="
               fixed
@@ -125,14 +160,21 @@ function DashboardLayout({ children }) {
               lg:hidden
             "
 
+
           >
+
 
             <Sidebar />
 
+
           </motion.aside>
 
+
         )
+
+
       }
+
 
       </AnimatePresence>
 
@@ -142,14 +184,22 @@ function DashboardLayout({ children }) {
 
 
 
+
+
       {/* Overlay */}
 
+
+
       {
+
         open && (
+
 
           <div
 
+
             onClick={()=>setOpen(false)}
+
 
             className="
               fixed
@@ -160,9 +210,12 @@ function DashboardLayout({ children }) {
               lg:hidden
             "
 
+
           />
 
+
         )
+
       }
 
 
@@ -171,54 +224,116 @@ function DashboardLayout({ children }) {
 
 
 
-      {/* Content */}
+
+
+      {/* Main Content */}
+
+
 
       <main
 
+
         className="
+
           flex-1
+
+          w-full
+
+          min-w-0
+
+          overflow-x-hidden
+
+
           lg:ml-64
+
+
           min-h-screen
-          p-6
+
+
+          p-4
+
+          sm:p-6
+
           lg:p-10
+
+
           pt-20
+
           lg:pt-10
+
         "
+
 
       >
 
+
+
+
+
+
         <motion.div
+
 
           initial={{
             opacity:0,
             y:20
           }}
 
+
           animate={{
             opacity:1,
             y:0
           }}
 
+
           transition={{
             duration:.5
           }}
 
+
+          className="
+
+            w-full
+
+            max-w-6xl
+
+            mx-auto
+
+            overflow-hidden
+
+            break-words
+
+          "
+
+
         >
+
+
 
           {children}
 
+
+
         </motion.div>
+
+
+
 
 
       </main>
 
 
 
+
+
+
     </div>
+
 
   );
 
 }
+
 
 
 export default DashboardLayout;
