@@ -1,35 +1,36 @@
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState
+} from "react";
+
 
 import {
+  UserCircle,
   Camera,
   Mail,
+  Calendar,
+  GraduationCap,
+  Briefcase,
   Edit3,
   Save,
-  Briefcase,
-  Sparkles,
-  Bot,
-  Rocket,
-  Brain,
-  Target,
-  Zap,
-  Lightbulb,
-  Code2,
-  Globe,
-  Star,
-  Cpu,
-  BarChart3
+  Shield,
+  Sparkles
 } from "lucide-react";
+
 
 import { motion } from "framer-motion";
 
+
 import DashboardLayout from "../Dashboard/DashboardLayout";
+
 
 import { supabase } from "../../lib/supabase";
 
 
 
-function Profile(){
 
+
+function Profile(){
 
 
 const [editing,setEditing] = useState(false);
@@ -40,27 +41,17 @@ const [message,setMessage] = useState("");
 
 const [profile,setProfile] = useState({
 
-name:"",
+firstName:"",
+lastName:"",
 email:"",
+dateOfBirth:"",
+age:"",
+education:"",
+occupation:"",
 role:"",
 image:""
 
 });
-
-
-
-
-
-
-function validateEmail(email){
-
-const regex =
-/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-
-return regex.test(email);
-
-}
 
 
 
@@ -86,11 +77,14 @@ async function loadProfile(){
 
 
 const {
+
 data:{
 user
+
 }
 
 }=await supabase.auth.getUser();
+
 
 
 
@@ -101,15 +95,58 @@ if(!user) return;
 
 
 
+const meta = user.user_metadata || {};
+
+
+
+
+
 setProfile({
 
-name:user.user_metadata?.name || "User",
+firstName:
+meta.firstName ||
+meta.name ||
+"",
 
-email:user.email || "",
 
-role:user.user_metadata?.role || "Startup Creator",
+lastName:
+meta.lastName ||
+"",
 
-image:user.user_metadata?.image || ""
+
+email:
+user.email ||
+"",
+
+
+dateOfBirth:
+meta.dateOfBirth ||
+"",
+
+
+age:
+meta.age ||
+"",
+
+
+education:
+meta.education ||
+"",
+
+
+occupation:
+meta.occupation ||
+"",
+
+
+role:
+meta.role ||
+"User",
+
+
+image:
+meta.image ||
+""
 
 });
 
@@ -149,7 +186,7 @@ setProfile({
 async function uploadImage(e){
 
 
-const file=e.target.files[0];
+const file = e.target.files[0];
 
 
 if(!file) return;
@@ -161,9 +198,7 @@ if(!file) return;
 if(!file.type.startsWith("image/")){
 
 
-setMessage(
-"Please upload an image file."
-);
+setMessage("Please upload an image");
 
 
 return;
@@ -176,13 +211,15 @@ return;
 
 
 
-
 const {
+
 data:{
 user
+
 }
 
 }=await supabase.auth.getUser();
+
 
 
 
@@ -203,7 +240,6 @@ const fileName =
 
 
 
-
 const {error}=await supabase.storage
 
 .from("profile-images")
@@ -215,18 +251,13 @@ const {error}=await supabase.storage
 
 
 
-
 if(error){
-
 
 setMessage(error.message);
 
-
 return;
 
-
 }
-
 
 
 
@@ -245,7 +276,6 @@ const {data}=supabase.storage
 
 
 
-
 setProfile({
 
 ...profile,
@@ -258,24 +288,7 @@ image:data.publicUrl
 
 
 
-
-
-setMessage(
-"✨ Profile image updated"
-);
-
-
-
-
-
-
-
-setTimeout(()=>{
-
-
-setMessage("");
-
-},2500);
+setMessage("Profile image updated");
 
 
 
@@ -284,35 +297,31 @@ setMessage("");
 async function saveProfile(){
 
 
-
-if(!validateEmail(profile.email)){
-
-
-setMessage(
-"Please enter a valid email address."
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-
 const {error}=await supabase.auth.updateUser({
-
 
 data:{
 
 
-name:profile.name,
+firstName:profile.firstName,
+
+
+lastName:profile.lastName,
+
+
+dateOfBirth:profile.dateOfBirth,
+
+
+age:profile.age,
+
+
+education:profile.education,
+
+
+occupation:profile.occupation,
+
 
 role:profile.role,
+
 
 image:profile.image
 
@@ -321,8 +330,6 @@ image:profile.image
 
 
 });
-
-
 
 
 
@@ -343,27 +350,16 @@ return;
 
 
 
-
-
 setEditing(false);
 
 
-
-setMessage(
-"🚀 Profile saved successfully"
-);
-
-
-
-
+setMessage("Profile saved successfully");
 
 
 
 setTimeout(()=>{
 
-
 setMessage("");
-
 
 },2500);
 
@@ -386,441 +382,117 @@ return(
 
 
 
+
 <div
 
 className="
-h-screen
+
 w-full
-relative
-overflow-hidden
-flex
+
+max-w-6xl
+
+mx-auto
+
+space-y-10
+
+px-2
+
+md:px-0
+
+"
+
+>
+
+
+
+
+
+{/* HEADER */}
+
+
+
+<div>
+
+
+<div className="
+
+inline-flex
+
 items-center
-justify-center
-px-5
-pb-8
-"
 
->
+gap-2
 
+px-4
 
+py-2
 
+rounded-full
 
+bg-[#BFDBF7]
 
+text-[#022B3A]
 
+font-semibold
 
+text-sm
 
+mb-4
 
-{/* BACKGROUND ICONS */}
+">
 
 
+<Sparkles size={16}/>
 
 
+PitchPilot Profile
 
-<motion.div
 
-animate={{
+</div>
 
-y:[0,30,0],
 
-rotate:[0,20,0]
 
-}}
 
-transition={{
 
-duration:8,
+<h1 className="
 
-repeat:Infinity
+text-4xl
 
-}}
+font-bold
 
-className="
-absolute
-top-10
-left-8
-text-[#1F7A8C]
-opacity-20
-"
+text-[#022B3A]
 
->
+dark:text-white
 
-<Bot size={65}/>
+">
 
-</motion.div>
 
+Account Settings
 
 
+</h1>
 
 
 
 
 
+<p className="
 
-<motion.div
+mt-2
 
-animate={{
+text-gray-500
 
-y:[0,-25,0]
+dark:text-gray-400
 
-}}
+">
 
-transition={{
 
-duration:7,
+Manage your PitchPilot account information.
 
-repeat:Infinity
 
-}}
+</p>
 
-className="
-absolute
-top-20
-right-8
-text-[#BFDBF7]
-opacity-40
-"
 
->
-
-<Sparkles size={75}/>
-
-</motion.div>
-
-
-
-
-
-
-
-
-
-<motion.div
-
-animate={{
-
-y:[0,25,0]
-
-}}
-
-transition={{
-
-duration:9,
-
-repeat:Infinity
-
-}}
-
-className="
-absolute
-bottom-10
-left-10
-text-[#1F7A8C]
-opacity-20
-"
-
->
-
-<Rocket size={75}/>
-
-</motion.div>
-
-
-
-
-
-
-
-
-
-<motion.div
-
-animate={{
-
-y:[0,-20,0]
-
-}}
-
-transition={{
-
-duration:6,
-
-repeat:Infinity
-
-}}
-
-className="
-absolute
-top-32
-left-1/4
-text-yellow-400
-opacity-20
-"
-
->
-
-<Lightbulb size={55}/>
-
-</motion.div>
-
-
-
-
-
-
-
-
-
-<motion.div
-
-animate={{
-
-y:[0,20,0]
-
-}}
-
-transition={{
-
-duration:7,
-
-repeat:Infinity
-
-}}
-
-className="
-absolute
-bottom-10
-right-5
-text-purple-400
-opacity-20
-"
-
->
-
-<Brain size={65}/>
-
-</motion.div>
-
-
-
-
-
-
-
-
-
-<motion.div
-
-animate={{
-
-y:[0,-20,0],
-
-rotate:[0,15,0]
-
-}}
-
-transition={{
-
-duration:8,
-
-repeat:Infinity
-
-}}
-
-className="
-absolute
-top-16
-right-24
-text-[#1F7A8C]
-opacity-20
-"
-
->
-
-<Target size={60}/>
-
-</motion.div>
-
-
-
-
-
-
-
-
-
-<motion.div
-
-animate={{
-
-y:[0,25,0]
-
-}}
-
-transition={{
-
-duration:8,
-
-repeat:Infinity
-
-}}
-
-className="
-absolute
-bottom-24
-left-8
-text-green-400
-opacity-20
-"
-
->
-
-<Code2 size={55}/>
-
-</motion.div>
-
-<motion.div
-
-animate={{
-
-y:[0,-25,0]
-
-}}
-
-transition={{
-
-duration:7,
-
-repeat:Infinity
-
-}}
-
-className="
-absolute
-top-40
-right-4
-text-blue-400
-opacity-20
-"
-
->
-
-<Globe size={60}/>
-
-</motion.div>
-
-
-
-
-
-
-
-
-
-<motion.div
-
-animate={{
-
-y:[0,20,0]
-
-}}
-
-transition={{
-
-duration:7,
-
-repeat:Infinity
-
-}}
-
-className="
-absolute
-top-20
-left-1/2
-text-yellow-300
-opacity-20
-"
-
->
-
-<Star size={50}/>
-
-</motion.div>
-
-
-
-
-
-
-
-
-
-<motion.div
-
-animate={{
-
-y:[0,-20,0]
-
-}}
-
-transition={{
-
-duration:8,
-
-repeat:Infinity
-
-}}
-
-className="
-absolute
-bottom-16
-right-24
-text-pink-400
-opacity-20
-"
-
->
-
-<Cpu size={55}/>
-
-</motion.div>
-
-
-
-
-
-
-
-
-
-<motion.div
-
-animate={{
-
-y:[0,-25,0]
-
-}}
-
-transition={{
-
-duration:8,
-
-repeat:Infinity
-
-}}
-
-className="
-absolute
-top-1/2
-left-6
-text-[#BFDBF7]
-opacity-30
-"
-
->
-
-<BarChart3 size={60}/>
-
-</motion.div>
+</div>
 
 
 
@@ -834,17 +506,18 @@ opacity-30
 
 
 
-
-
 <motion.div
+
 
 initial={{
 
 opacity:0,
 
-y:40
+y:30
 
 }}
+
+
 
 animate={{
 
@@ -853,6 +526,8 @@ opacity:1,
 y:0
 
 }}
+
+
 
 transition={{
 
@@ -863,20 +538,23 @@ duration:.5
 
 
 className="
-relative
-z-10
-w-full
-max-w-lg
-max-h-[90vh]
-overflow-hidden
-rounded-3xl
-bg-white/80
-dark:bg-gray-900/80
-backdrop-blur-xl
-shadow-2xl
+
+bg-white
+
+dark:bg-gray-900
+
 border
-border-white/40
+
+border-gray-200
+
 dark:border-gray-700
+
+rounded-3xl
+
+p-8
+
+shadow-sm
+
 "
 
 >
@@ -884,22 +562,98 @@ dark:border-gray-700
 
 
 
+<div className="
+
+flex
+
+items-center
+
+gap-4
+
+mb-8
+
+">
+
+
+
+<div className="
+
+w-14
+
+h-14
+
+rounded-2xl
+
+bg-[#BFDBF7]
+
+flex
+
+items-center
+
+justify-center
+
+">
+
+
+<UserCircle
+
+size={32}
+
+className="text-[#1F7A8C]"
+
+/>
+
+
+</div>
 
 
 
 
 
-<div
 
-className="
-h-20
-bg-gradient-to-r
-from-[#022B3A]
-via-[#1F7A8C]
-to-[#BFDBF7]
-"
 
->
+<div>
+
+
+<h2 className="
+
+text-2xl
+
+font-bold
+
+text-[#022B3A]
+
+dark:text-white
+
+">
+
+
+My Profile
+
+
+</h2>
+
+
+
+
+<p className="
+
+text-gray-500
+
+dark:text-gray-400
+
+">
+
+
+Personal information and account details
+
+
+</p>
+
+
+
+</div>
+
 
 </div>
 
@@ -911,65 +665,53 @@ to-[#BFDBF7]
 
 
 
-<div
-
-className="
-p-6
-text-center
-"
-
->
+{/* PROFILE IMAGE */}
 
 
 
+<div className="
 
-
-
-
-
-
-<div
-
-className="
-relative
--mt-16
-mb-4
-"
-
->
-
-
-
-
-
-
-
-
-
-<div
-
-className="
-w-28
-h-28
-mx-auto
-rounded-full
-overflow-hidden
-border-8
-border-white
-dark:border-gray-900
-bg-[#1F7A8C]
 flex
-items-center
+
 justify-center
+
+mb-8
+
+">
+
+
+
+<div className="relative">
+
+
+
+<div className="
+
+w-32
+
+h-32
+
+rounded-full
+
+overflow-hidden
+
+bg-[#1F7A8C]
+
 text-white
+
+flex
+
+items-center
+
+justify-center
+
 text-4xl
+
 font-bold
-shadow-xl
-"
 
->
+shadow-lg
 
-
+">
 
 
 
@@ -987,18 +729,28 @@ src={profile.image}
 alt="profile"
 
 className="
+
 w-full
+
 h-full
+
 object-cover
+
 "
 
 />
 
 
+
 :
 
 
-profile.name?.charAt(0).toUpperCase()
+profile.firstName
+
+?.charAt(0)
+
+.toUpperCase()
+
 
 
 }
@@ -1013,30 +765,40 @@ profile.name?.charAt(0).toUpperCase()
 
 
 
-
-
 {
 
 editing && (
 
 
-<label
 
-className="
+<label className="
+
 absolute
+
 bottom-0
-right-[38%]
+
+right-0
+
 bg-white
+
+dark:bg-gray-800
+
 text-[#1F7A8C]
+
 p-3
+
 rounded-full
-shadow-xl
+
+shadow-lg
+
 cursor-pointer
-"
 
->
+">
 
-<Camera size={18}/>
+
+
+<Camera size={20}/>
+
 
 
 
@@ -1057,13 +819,14 @@ className="hidden"
 </label>
 
 
+
 )
 
 }
 
 
 
-
+</div>
 
 
 
@@ -1096,17 +859,29 @@ opacity:1
 
 }}
 
+
+
 className="
-mb-4
+
+mb-6
+
 rounded-xl
+
 bg-[#1F7A8C]/10
+
 text-[#1F7A8C]
-py-2
-text-sm
+
+py-3
+
+text-center
+
 font-semibold
+
 "
 
+
 >
+
 
 {message}
 
@@ -1114,32 +889,20 @@ font-semibold
 </motion.div>
 
 
+
 )
 
 }
 
+<div className="
 
+grid
 
+md:grid-cols-2
 
+gap-5
 
-
-
-
-
-{
-
-editing
-
-?
-
-
-<div
-
-className="
-space-y-3
-"
-
->
+">
 
 
 
@@ -1149,22 +912,34 @@ space-y-3
 
 <input
 
-name="name"
+name="firstName"
 
-value={profile.name}
+value={profile.firstName}
 
 onChange={handleChange}
 
-placeholder="Your name"
+disabled={!editing}
+
+placeholder="First Name"
 
 className="
-w-full
-p-3
-rounded-xl
+
+p-4
+
+rounded-2xl
+
 border
+
+border-gray-200
+
+dark:border-gray-700
+
 dark:bg-gray-800
+
 dark:text-white
+
 outline-none
+
 "
 
 />
@@ -1172,6 +947,448 @@ outline-none
 
 
 
+
+
+
+<input
+
+name="lastName"
+
+value={profile.lastName}
+
+onChange={handleChange}
+
+disabled={!editing}
+
+placeholder="Last Name"
+
+className="
+
+p-4
+
+rounded-2xl
+
+border
+
+border-gray-200
+
+dark:border-gray-700
+
+dark:bg-gray-800
+
+dark:text-white
+
+outline-none
+
+"
+
+/>
+
+
+
+
+
+
+
+
+
+<div className="relative">
+
+
+<Mail
+
+size={20}
+
+className="
+
+absolute
+
+left-4
+
+top-4
+
+text-[#1F7A8C]
+
+"
+
+/>
+
+
+<input
+
+value={profile.email}
+
+disabled
+
+className="
+
+w-full
+
+p-4
+
+pl-12
+
+rounded-2xl
+
+border
+
+border-gray-200
+
+dark:border-gray-700
+
+dark:bg-gray-800
+
+dark:text-white
+
+"
+
+/>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div className="relative">
+
+
+<Calendar
+
+size={20}
+
+className="
+
+absolute
+
+left-4
+
+top-4
+
+text-[#1F7A8C]
+
+"
+
+/>
+
+
+
+<input
+
+name="dateOfBirth"
+
+type="date"
+
+value={profile.dateOfBirth || ""}
+
+onChange={(e)=>
+
+setProfile({
+
+...profile,
+
+dateOfBirth:e.target.value
+
+})
+
+}
+
+disabled={!editing}
+
+className="
+
+w-full
+
+p-4
+
+pl-12
+
+rounded-2xl
+
+border
+
+border-gray-200
+
+dark:border-gray-700
+
+dark:bg-gray-800
+
+dark:text-white
+
+outline-none
+
+cursor-pointer
+
+"
+
+/>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<input
+
+name="age"
+
+value={profile.age}
+
+onChange={handleChange}
+
+disabled={!editing}
+
+placeholder="Age"
+
+className="
+
+p-4
+
+rounded-2xl
+
+border
+
+border-gray-200
+
+dark:border-gray-700
+
+dark:bg-gray-800
+
+dark:text-white
+
+outline-none
+
+"
+
+/>
+
+
+
+
+
+
+
+
+
+<div className="relative">
+
+
+<GraduationCap
+
+size={20}
+
+className="
+
+absolute
+
+left-4
+
+top-4
+
+text-[#1F7A8C]
+
+"
+
+/>
+
+
+
+
+<input
+
+name="education"
+
+value={profile.education}
+
+onChange={handleChange}
+
+disabled={!editing}
+
+placeholder="Education"
+
+className="
+
+w-full
+
+p-4
+
+pl-12
+
+rounded-2xl
+
+border
+
+border-gray-200
+
+dark:border-gray-700
+
+dark:bg-gray-800
+
+dark:text-white
+
+outline-none
+
+"
+
+/>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div className="relative">
+
+
+
+<Briefcase
+
+size={20}
+
+className="
+
+absolute
+
+left-4
+
+top-4
+
+text-[#1F7A8C]
+
+"
+
+/>
+
+
+
+
+<select
+
+name="occupation"
+
+value={profile.occupation}
+
+onChange={handleChange}
+
+disabled={!editing}
+
+
+className="
+
+w-full
+
+p-4
+
+pl-12
+
+rounded-2xl
+
+border
+
+border-gray-200
+
+dark:border-gray-700
+
+dark:bg-gray-800
+
+dark:text-white
+
+outline-none
+
+"
+
+
+>
+
+
+<option value="">
+
+Occupation
+
+</option>
+
+
+<option value="Student">
+
+Student
+
+</option>
+
+
+<option value="Worker">
+
+Worker
+
+</option>
+
+
+<option value="Teacher">
+
+Teacher
+
+</option>
+
+
+<option value="Other">
+
+Other
+
+</option>
+
+
+</select>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div className="relative">
+
+
+<Shield
+
+size={20}
+
+className="
+
+absolute
+
+left-4
+
+top-4
+
+text-[#1F7A8C]
+
+"
+
+/>
 
 
 
@@ -1183,165 +1400,35 @@ value={profile.role}
 
 onChange={handleChange}
 
-placeholder="Your role"
+disabled={!editing}
+
+placeholder="Role"
 
 className="
+
 w-full
-p-3
-rounded-xl
-border
-dark:bg-gray-800
-dark:text-white
-outline-none
-"
 
-/>
+p-4
 
+pl-12
 
-
-
-
-
-</div>
-
-
-
-:
-
-
-<>
-
-
-<h1
-
-className="
-text-3xl
-font-bold
-dark:text-white
-"
-
->
-
-{profile.name}
-
-</h1>
-
-
-
-
-
-
-
-<div
-
-className="
-inline-flex
-items-center
-gap-2
-mt-3
-px-5
-py-2
-rounded-full
-bg-[#BFDBF7]
-text-[#022B3A]
-font-semibold
-"
-
->
-
-<Briefcase size={18}/>
-
-{profile.role}
-
-</div>
-
-
-
-
-</>
-
-
-}
-
-
-
-
-
-
-
-
-
-<div
-
-className="
-mt-5
-p-3
 rounded-2xl
-bg-gray-100
+
+border
+
+border-gray-200
+
+dark:border-gray-700
+
 dark:bg-gray-800
-flex
-items-center
-gap-3
-text-left
+
+dark:text-white
+
+outline-none
+
 "
-
->
-
-
-
-
-
-<Mail
-
-size={20}
-
-className="text-[#1F7A8C]"
 
 />
-
-
-
-
-
-
-
-<div>
-
-
-<p
-
-className="
-text-xs
-text-gray-400
-"
-
->
-
-Email
-
-</p>
-
-
-
-
-
-
-<p
-
-className="
-text-sm
-font-medium
-dark:text-white
-break-all
-"
-
->
-
-{profile.email}
-
-</p>
-
-
 
 
 
@@ -1366,7 +1453,6 @@ break-all
 <button
 
 
-
 onClick={
 
 editing
@@ -1383,35 +1469,44 @@ saveProfile
 
 
 
-
-
 className="
-mt-5
+
+mt-8
+
 w-full
-py-3
+
+py-4
+
 rounded-2xl
+
 bg-[#1F7A8C]
+
 hover:bg-[#022B3A]
+
 text-white
+
 font-bold
+
 flex
+
 items-center
+
 justify-center
-gap-2
+
+gap-3
+
 transition
+
 shadow-lg
-hover:scale-[1.02]
+
 "
 
 >
 
 
 
-
-
-
-
 {
+
 
 editing
 
@@ -1422,7 +1517,7 @@ editing
 
 <Save size={20}/>
 
-Save Changes
+Save Profile
 
 </>
 
@@ -1444,18 +1539,9 @@ Edit Profile
 
 
 
-
-
-
 </button>
 
 
-
-
-
-
-
-</div>
 
 
 
@@ -1471,9 +1557,8 @@ Edit Profile
 
 
 
+
 </div>
-
-
 
 
 
@@ -1486,8 +1571,6 @@ Edit Profile
 
 
 }
-
-
 
 
 

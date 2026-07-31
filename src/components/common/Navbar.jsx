@@ -3,11 +3,9 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 import Logo from "./Logo";
 
-
 function Navbar() {
 
   const { darkMode, toggleTheme } = useTheme();
-
 
   return (
 
@@ -16,30 +14,27 @@ function Navbar() {
       className={`
 
         fixed
-        top-5
+        top-4
         left-1/2
         -translate-x-1/2
-        w-[92%]
+        w-[96%]
         md:w-[88%]
         max-w-6xl
         backdrop-blur-md
         rounded-2xl
-        shadow-sm
+        shadow-md
         z-50
         border
 
         ${
           darkMode
-          ?
-          "bg-[#022B3A]/90 border-white/10"
-          :
-          "bg-white/80 border-[#E1E5F2]"
+            ? "bg-[#022B3A]/90 border-white/10"
+            : "bg-white/80 border-[#E1E5F2]"
         }
 
       `}
 
     >
-
 
       <div
 
@@ -48,29 +43,18 @@ function Navbar() {
           flex
           items-center
           justify-between
-          px-3
+          px-2
           sm:px-4
           md:px-6
-          py-2.5
+          py-2
 
         "
 
       >
 
-
-
-
-
         {/* LOGO */}
 
         <Logo />
-
-
-
-
-
-
-
 
         {/* NAV LINKS */}
 
@@ -80,17 +64,16 @@ function Navbar() {
 
             flex
             items-center
-            gap-2
-            sm:gap-4
+            gap-1
+            sm:gap-3
             md:gap-6
-            text-xs
+
+            text-[11px]
             sm:text-sm
 
           "
 
         >
-
-
 
           <Link
 
@@ -102,6 +85,7 @@ function Navbar() {
               dark:text-white
               hover:text-[#1F7A8C]
               transition
+              whitespace-nowrap
 
             "
 
@@ -110,11 +94,6 @@ function Navbar() {
             Home
 
           </Link>
-
-
-
-
-
 
           <a
 
@@ -126,6 +105,7 @@ function Navbar() {
               dark:text-white
               hover:text-[#1F7A8C]
               transition
+              whitespace-nowrap
 
             "
 
@@ -134,12 +114,6 @@ function Navbar() {
             Features
 
           </a>
-
-
-
-
-
-
 
           <Link
 
@@ -151,6 +125,7 @@ function Navbar() {
               dark:text-white
               hover:text-[#1F7A8C]
               transition
+              whitespace-nowrap
 
             "
 
@@ -160,20 +135,9 @@ function Navbar() {
 
           </Link>
 
-
-
         </div>
 
-
-
-
-
-
-
-
-
         {/* RIGHT SIDE */}
-
 
         <div
 
@@ -181,18 +145,15 @@ function Navbar() {
 
             flex
             items-center
-            gap-2
+            gap-1
+            sm:gap-2
             md:gap-4
 
           "
 
         >
 
-
-
-
           {/* THEME BUTTON */}
-
 
           <button
 
@@ -200,24 +161,22 @@ function Navbar() {
 
             className={`
 
-              w-7
-              h-7
-              rounded-lg
+              w-6
+              h-6
+              sm:w-7
+              sm:h-7
+              rounded-md
               border
               flex
               items-center
               justify-center
               transition
 
-
               ${
                 darkMode
-                ?
-                "border-white/20 text-white hover:bg-white/10"
-                :
-                "border-[#E1E5F2] text-[#022B3A] hover:bg-[#F5F7FA]"
+                  ? "border-white/20 text-white hover:bg-white/10"
+                  : "border-[#E1E5F2] text-[#022B3A] hover:bg-[#F5F7FA]"
               }
-
 
             `}
 
@@ -229,27 +188,17 @@ function Navbar() {
 
               ?
 
-              <Sun size={14}/>
+              <Sun size={12}/>
 
               :
 
-              <Moon size={14}/>
+              <Moon size={12}/>
 
             }
 
-
           </button>
 
-
-
-
-
-
-
-
-
-          {/* LOGIN */}
-
+                    {/* LOGIN */}
 
           <Link
 
@@ -257,12 +206,13 @@ function Navbar() {
 
             className="
 
-              text-xs
+              text-[11px]
               sm:text-sm
               text-gray-700
               dark:text-white
               hover:text-[#1F7A8C]
               transition
+              whitespace-nowrap
 
             "
 
@@ -275,13 +225,7 @@ function Navbar() {
 
 
 
-
-
-
-
-
           {/* SIGN UP */}
-
 
           <Link
 
@@ -291,11 +235,13 @@ function Navbar() {
 
               bg-[#1F7A8C]
               text-white
-              text-xs
+              text-[11px]
               sm:text-sm
-              px-3
-              py-1.5
-              rounded-lg
+              px-2.5
+              sm:px-3
+              py-1
+              sm:py-1.5
+              rounded-md
               whitespace-nowrap
               hover:bg-[#022B3A]
               transition
@@ -308,22 +254,14 @@ function Navbar() {
 
           </Link>
 
-
-
         </div>
-
-
-
 
       </div>
 
-
     </nav>
-
 
   );
 
 }
-
 
 export default Navbar;

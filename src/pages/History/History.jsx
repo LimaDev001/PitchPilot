@@ -11,6 +11,20 @@ import {
   ShieldCheck,
   Presentation,
   Rocket,
+  Gamepad2,
+  UtensilsCrossed,
+  ShoppingCart,
+  Wallet,
+  HeartPulse,
+  GraduationCap,
+  Plane,
+  Bot,
+  Music,
+  Camera,
+  Car,
+  Dumbbell,
+  Building2,
+  Users
 } from "lucide-react";
 
 import DashboardLayout from "../Dashboard/DashboardLayout";
@@ -18,11 +32,17 @@ import { supabase } from "../../lib/supabase";
 import { generatePDF } from "../../utils/generatePDF";
 
 
+
 function History(){
 
+
 const [analyses,setAnalyses] = useState([]);
+
 const [search,setSearch] = useState("");
+
 const [loading,setLoading] = useState(true);
+
+
 
 
 
@@ -36,16 +56,22 @@ loadHistory();
 
 
 
+
 async function loadHistory(){
+
 
 try{
 
 
 const {
+
 data:{
 user
+
 }
+
 }=await supabase.auth.getUser();
+
 
 
 
@@ -59,6 +85,8 @@ return;
 
 
 
+
+
 const {data,error}=await supabase
 
 .from("analyses")
@@ -67,16 +95,33 @@ const {data,error}=await supabase
 
 .eq("user_id",user.id)
 
-.order("created_at",{ascending:false});
+.order(
 
+"created_at",
 
+{
 
+ascending:false
 
-if (error) {
-  console.error(error);
-  alert(error.message);
-  return;
 }
+
+);
+
+
+
+
+
+if(error){
+
+console.error(error);
+
+setLoading(false);
+
+return;
+
+}
+
+
 
 
 
@@ -88,6 +133,7 @@ setLoading(false);
 
 }
 
+
 catch(error){
 
 console.log(error);
@@ -97,6 +143,7 @@ setLoading(false);
 }
 
 
+
 }
 
 
@@ -105,13 +152,320 @@ setLoading(false);
 
 
 
-// ✅ FINAL DELETE FIX
+
+
+function getIdeaInfo(idea){
+
+
+const text = idea?.toLowerCase() || "";
+
+
+
+if(
+text.includes("game") ||
+text.includes("gaming") ||
+text.includes("player") ||
+text.includes("tournament") ||
+text.includes("action")
+)
+
+return {
+
+name:"Gaming App",
+
+icon:<Gamepad2 size={26}/>
+
+};
+
+
+
+
+if(
+text.includes("food") ||
+text.includes("cook") ||
+text.includes("recipe") ||
+text.includes("restaurant") ||
+text.includes("meal")
+)
+
+return {
+
+name:"Food Platform",
+
+icon:<UtensilsCrossed size={26}/>
+
+};
+
+
+
+
+
+if(
+text.includes("shop") ||
+text.includes("store") ||
+text.includes("marketplace") ||
+text.includes("ecommerce") ||
+text.includes("buy") ||
+text.includes("sell")
+)
+
+return {
+
+name:"E-Commerce App",
+
+icon:<ShoppingCart size={26}/>
+
+};
+
+
+
+
+
+
+if(
+text.includes("doctor") ||
+text.includes("hospital") ||
+text.includes("health") ||
+text.includes("medical") ||
+text.includes("patient")
+)
+
+return {
+
+name:"Healthcare App",
+
+icon:<HeartPulse size={26}/>
+
+};
+
+
+
+
+
+
+if(
+text.includes("money") ||
+text.includes("finance") ||
+text.includes("bank") ||
+text.includes("payment")
+)
+
+return {
+
+name:"Finance App",
+
+icon:<Wallet size={26}/>
+
+};
+
+
+
+
+
+
+
+if(
+text.includes("school") ||
+text.includes("student") ||
+text.includes("education") ||
+text.includes("learn") ||
+text.includes("learning") ||
+text.includes("scholarship")
+)
+
+return {
+
+name:"Education Platform",
+
+icon:<GraduationCap size={26}/>
+
+};
+
+
+
+
+
+
+
+if(
+text.includes("travel") ||
+text.includes("trip") ||
+text.includes("hotel")
+)
+
+return {
+
+name:"Travel App",
+
+icon:<Plane size={26}/>
+
+};
+
+
+
+
+
+
+
+if(
+text.includes("ai") ||
+text.includes("artificial intelligence") ||
+text.includes("assistant")
+)
+
+return {
+
+name:"AI Tool",
+
+icon:<Bot size={26}/>
+
+};
+
+
+
+
+
+
+
+if(
+text.includes("music") ||
+text.includes("song") ||
+text.includes("audio")
+)
+
+return {
+
+name:"Music App",
+
+icon:<Music size={26}/>
+
+};
+
+
+
+
+
+
+
+if(
+text.includes("photo") ||
+text.includes("camera") ||
+text.includes("image")
+)
+
+return {
+
+name:"Photography App",
+
+icon:<Camera size={26}/>
+
+};
+
+
+
+
+
+
+
+if(
+text.includes("car") ||
+text.includes("vehicle") ||
+text.includes("transport")
+)
+
+return {
+
+name:"Vehicle Service",
+
+icon:<Car size={26}/>
+
+};
+
+
+
+
+
+
+
+if(
+text.includes("fitness") ||
+text.includes("gym") ||
+text.includes("workout") ||
+text.includes("coach")
+)
+
+return {
+
+name:"Fitness App",
+
+icon:<Dumbbell size={26}/>
+
+};
+
+
+
+
+
+
+
+if(
+text.includes("business") ||
+text.includes("company") ||
+text.includes("startup") ||
+text.includes("market")
+)
+
+return {
+
+name:"Business Platform",
+
+icon:<Building2 size={26}/>
+
+};
+
+
+
+
+
+
+
+if(
+text.includes("social") ||
+text.includes("community") ||
+text.includes("chat")
+)
+
+return {
+
+name:"Social Platform",
+
+icon:<Users size={26}/>
+
+};
+
+
+
+
+
+
+return {
+
+name:"Startup Idea",
+
+icon:<Rocket size={26}/>
+
+};
+
+
+}
 
 async function deleteAnalysis(id){
 
 
 const confirmDelete = window.confirm(
+
 "Are you sure you want to delete this analysis?"
+
 );
 
 
@@ -120,14 +474,20 @@ if(!confirmDelete) return;
 
 
 
+
 try{
 
 
 const {
+
 data:{
 user
+
 }
+
 }=await supabase.auth.getUser();
+
+
 
 
 
@@ -158,8 +518,6 @@ const {error}=await supabase
 
 if(error){
 
-console.log(error.message);
-
 alert(error.message);
 
 return;
@@ -169,10 +527,7 @@ return;
 
 
 
-// remove instantly
-
 setAnalyses((old)=>
-
 
 old.filter(
 
@@ -180,19 +535,16 @@ old.filter(
 
 )
 
-
 );
 
 
-
-
-// get fresh data
 
 await loadHistory();
 
 
 
 }
+
 
 catch(error){
 
@@ -203,7 +555,11 @@ alert("Delete failed");
 }
 
 
+
 }
+
+
+
 
 
 
@@ -215,91 +571,65 @@ function downloadPDF(item){
 
 let swot={};
 
-try{
-
-swot=JSON.parse(
-item.swot_report || "{}"
-);
-
-}
-
-catch{
-
-swot={};
-
-}
-
-
-
 let market={};
-
-try{
-
-market=JSON.parse(
-item.market_analysis || "{}"
-);
-
-}
-
-catch{
-
-market={};
-
-}
-
-
 
 let strategy={};
 
-try{
-
-strategy=JSON.parse(
-item.business_strategy || "{}"
-);
-
-}
-
-catch{
-
-strategy={};
-
-}
-
-
-
 let risks=[];
-
-try{
-
-risks=JSON.parse(
-item.risks || "[]"
-);
-
-}
-
-catch{
-
-risks=[];
-
-}
-
-
 
 let recommendations=[];
 
+
+
 try{
 
-recommendations=JSON.parse(
-item.recommendations || "[]"
-);
+swot=JSON.parse(item.swot_report || "{}");
 
 }
 
-catch{
+catch{}
 
-recommendations=[];
+
+
+try{
+
+market=JSON.parse(item.market_analysis || "{}");
 
 }
+
+catch{}
+
+
+
+try{
+
+strategy=JSON.parse(item.business_strategy || "{}");
+
+}
+
+catch{}
+
+
+
+try{
+
+risks=JSON.parse(item.risks || "[]");
+
+}
+
+catch{}
+
+
+
+try{
+
+recommendations=JSON.parse(item.recommendations || "[]");
+
+}
+
+catch{}
+
+
 
 
 
@@ -311,9 +641,12 @@ score:item.confidence || 0,
 
 strengths:swot.strengths || [],
 
+
 weaknesses:swot.weaknesses || [],
 
+
 opportunities:swot.opportunities || [],
+
 
 threats:swot.threats || [],
 
@@ -332,7 +665,11 @@ recommendations:recommendations,
 
 pitch:item.investor_pitch || ""
 
+
+
 };
+
+
 
 
 
@@ -345,7 +682,11 @@ item.idea
 );
 
 
+
 }
+
+
+
 
 
 
@@ -354,20 +695,33 @@ item.idea
 
 const filteredAnalyses = analyses.filter(item=>
 
+
 item.idea
+
 ?.toLowerCase()
+
 .includes(
+
 search.toLowerCase()
+
 )
+
 
 );
 
+
+
+
+
+
 return(
+
 
 <DashboardLayout>
 
 
 <div className="space-y-8">
+
 
 
 
@@ -406,6 +760,7 @@ className="text-[#1F7A8C]"
 
 
 
+
 <div>
 
 
@@ -435,8 +790,9 @@ Your saved startup analyses.
 </div>
 
 
-
 </div>
+
+
 
 
 
@@ -466,6 +822,7 @@ gap-3
 
 
 
+
 <input
 
 
@@ -485,11 +842,12 @@ bg-transparent
 dark:text-white
 "
 
-
 />
 
 
 </div>
+
+
 
 
 
@@ -508,6 +866,7 @@ Loading history...
 </div>
 
 }
+
 
 
 
@@ -550,13 +909,21 @@ Create your first startup analysis.
 
 
 
-<div className="space-y-6">
 
+<div className="space-y-6">
 
 
 {
 
-filteredAnalyses.map((item)=>(
+
+filteredAnalyses.map((item)=>{
+
+
+const info=getIdeaInfo(item.idea);
+
+
+
+return(
 
 
 <div
@@ -576,24 +943,37 @@ shadow-sm
 
 
 
+<div className="flex items-center gap-4">
 
 
-<div className="flex justify-between items-start gap-4">
+
+<div
+
+className="
+w-14
+h-14
+rounded-2xl
+bg-[#BFDBF7]
+flex
+items-center
+justify-center
+text-[#1F7A8C]
+"
+
+>
+
+
+{info.icon}
+
+
+</div>
+
+
+
+
 
 
 <div>
-
-
-<div className="flex items-center gap-3">
-
-
-<Rocket
-
-className="text-[#1F7A8C]"
-
-/>
-
-
 
 
 <h2
@@ -606,33 +986,42 @@ dark:text-white
 
 >
 
-{item.idea}
+{info.name}
 
 </h2>
 
 
+<p
 
-</div>
+className="
+text-sm
+text-gray-500
+dark:text-gray-400
+"
 
+>
 
-
-
-
-<p className="text-gray-500 mt-3">
-
-Saved analysis report
+Startup Analysis
 
 </p>
 
 
-
-</div>
-
-
 </div>
 
 
 
+</div>
+
+
+
+
+
+
+<p className="text-gray-500 mt-4 line-clamp-2">
+
+{item.idea}
+
+</p>
 
 <div
 
@@ -659,8 +1048,6 @@ value={`${item.confidence || 0}/100`}
 
 
 
-
-
 <StatCard
 
 icon={<ShieldCheck/>}
@@ -670,9 +1057,6 @@ title="SWOT"
 value="Completed"
 
 />
-
-
-
 
 
 
@@ -688,7 +1072,6 @@ value="Generated"
 />
 
 
-
 </div>
 
 
@@ -699,7 +1082,18 @@ value="Generated"
 
 
 
-<div className="flex gap-4 mt-7 items-center">
+<div
+
+className="
+flex
+gap-4
+mt-7
+items-center
+justify-end
+"
+
+>
+
 
 
 <Link
@@ -708,25 +1102,27 @@ value="Generated"
 to={`/report/${item.id}`}
 
 
+title="View Report"
+
+
 className="
-flex
-items-center
-gap-2
+w-12
+h-12
+rounded-full
 bg-[#1F7A8C]
 text-white
-px-5
-py-3
-rounded-xl
+flex
+items-center
+justify-center
+shadow-lg
+hover:bg-[#022B3A]
+transition
 "
-
 
 >
 
 
-<Eye size={18}/>
-
-
-View Report
+<Eye size={22}/>
 
 
 </Link>
@@ -744,28 +1140,31 @@ View Report
 onClick={()=>downloadPDF(item)}
 
 
+title="Download AI Report PDF"
+
+
 className="
-flex
-items-center
-gap-2
+w-12
+h-12
+rounded-full
 bg-[#022B3A]
 text-white
-px-5
-py-3
-rounded-xl
+flex
+items-center
+justify-center
+shadow-lg
+hover:bg-[#1F7A8C]
+transition
 "
-
 
 >
 
 
-<Download size={18}/>
-
-
-PDF
+<Download size={22}/>
 
 
 </button>
+
 
 
 
@@ -775,27 +1174,39 @@ PDF
 
 
 <button
+
+
 onClick={()=>deleteAnalysis(item.id)}
+
+
+title="Delete Analysis"
+
+
 className="
-w-11
-h-11
+w-12
+h-12
+rounded-full
+bg-red-50
+text-red-500
 flex
 items-center
 justify-center
-rounded-xl
-bg-red-50
-text-red-500
-shrink-0
+shadow-lg
+hover:bg-red-500
+hover:text-white
+transition
 "
+
 >
-<Trash2 size={18}/>
+
+
+<Trash2 size={22}/>
+
+
 </button>
 
 
 
-
-
-
 </div>
 
 
@@ -804,22 +1215,20 @@ shrink-0
 
 
 
+
 </div>
 
 
-))
+);
+
+
+})
 
 
 }
 
 
-
 </div>
-
-
-
-
-
 
 
 </div>
@@ -827,10 +1236,14 @@ shrink-0
 
 </DashboardLayout>
 
+
 );
 
 
 }
+
+
+
 
 
 
@@ -865,11 +1278,14 @@ p-5
 
 
 
+
 <p className="text-gray-500 mt-3">
 
 {title}
 
 </p>
+
+
 
 
 
@@ -898,6 +1314,9 @@ dark:text-white
 
 
 }
+
+
+
 
 
 

@@ -45,6 +45,7 @@ function InvestorPitchCard({ analysis }) {
 
 
 
+
   return (
 
 
@@ -53,6 +54,7 @@ function InvestorPitchCard({ analysis }) {
       w-full
       overflow-hidden
     ">
+
 
 
 
@@ -132,7 +134,9 @@ function InvestorPitchCard({ analysis }) {
 
 
 
+
         <div className="relative w-full">
+
 
 
 
@@ -152,6 +156,7 @@ function InvestorPitchCard({ analysis }) {
             gap-4
             mb-8
           ">
+
 
 
             <div
@@ -180,6 +185,7 @@ function InvestorPitchCard({ analysis }) {
 
 
             </div>
+
 
 
 
@@ -277,7 +283,9 @@ function InvestorPitchCard({ analysis }) {
 
 
 
-            {/* Scrollable Pitch */}
+
+            {/* Scroll Pitch */}
+
 
 
             <div
@@ -325,88 +333,84 @@ function InvestorPitchCard({ analysis }) {
 
 
 
-          {/* Copy Button */}
+          {/* Right Side Copy Button */}
 
 
 
-          <motion.button
-
-
-            whileHover={{
-              scale:1.05
-            }}
-
-
-            whileTap={{
-              scale:.97
-            }}
+          <div className="flex justify-end mt-8">
 
 
 
-            onClick={copyPitch}
+            <motion.button
+
+
+              whileHover={{
+                scale:1.08
+              }}
+
+
+              whileTap={{
+                scale:.95
+              }}
 
 
 
-            className="
-              mt-8
-              w-full
-              sm:w-auto
-              bg-white
-              text-[#022B3A]
-              px-6
-              sm:px-8
-              py-3
-              sm:py-4
-              rounded-2xl
-              font-semibold
-              flex
-              items-center
-              justify-center
-              gap-3
-              shadow-lg
-              transition
-            "
-
-
-          >
+              onClick={copyPitch}
 
 
 
-            {
-
-              copied
-
-              ?
-
-              <Check size={20}/>
-
-              :
-
-              <Copy size={20}/>
-
-
-            }
+              title={
+                copied
+                ?
+                "Copied"
+                :
+                "Copy Investor Pitch"
+              }
 
 
 
-            {
-
-              copied
-
-              ?
-
-              "Copied!"
-
-              :
-
-              "Copy Investor Pitch"
-
-
-            }
+              className="
+                w-12
+                h-12
+                rounded-full
+                bg-white
+                text-[#022B3A]
+                flex
+                items-center
+                justify-center
+                shadow-lg
+                transition
+              "
 
 
+            >
 
-          </motion.button>
+
+
+              {
+
+                copied
+
+                ?
+
+                <Check size={24}/>
+
+                :
+
+                <Copy size={24}/>
+
+              }
+
+
+
+
+            </motion.button>
+
+
+
+          </div>
+
+
 
 
 
@@ -419,7 +423,9 @@ function InvestorPitchCard({ analysis }) {
 
 
 
+
       </motion.div>
+
 
 
 

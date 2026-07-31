@@ -1,388 +1,446 @@
 import { Save, Check } from "lucide-react";
-import { useState } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 import { motion } from "framer-motion";
 import { supabase } from "../../lib/supabase";
 
 
-function SaveAnalysis({ startupIdea, analysis }) {
 
+const SaveAnalysis = forwardRef(
+({ startupIdea, analysis }, ref) => {
 
-  const [saved, setSaved] = useState(false);
-  const [loading, setLoading] = useState(false);
 
 
+const [saved,setSaved] = useState(false);
 
-  async function saveAnalysis(){
+const [loading,setLoading] = useState(false);
 
 
-    if(!analysis){
 
-      alert("No analysis available.");
 
-      return;
 
-    }
 
 
+async function saveAnalysis(){
 
-    if(!startupIdea.trim()){
 
-      alert("Please enter a startup idea first.");
 
-      return;
+if(!analysis){
 
-    }
+alert("No analysis available.");
 
+return false;
 
+}
 
-    setLoading(true);
 
 
 
-    try{
 
+if(!startupIdea?.trim()){
 
-      const {
-        data:{
-          user
-        }
+alert("Please enter a startup idea.");
 
-      } = await supabase.auth.getUser();
+return false;
 
+}
 
 
 
 
-      if(!user){
 
-        alert("You must be logged in.");
+setLoading(true);
 
-        setLoading(false);
 
-        return;
 
-      }
 
 
 
+try{
 
 
-      const { error } = await supabase
 
-      .from("analyses")
+const {
 
-      .insert({
+data:{
+user
 
+}
 
-        user_id:user.id,
+}=await supabase.auth.getUser();
 
 
-        idea:startupIdea,
 
 
 
-        swot_report:
+if(!user){
 
-          JSON.stringify({
+alert("You must login first.");
 
-            strengths: analysis.strengths || [],
+return false;
 
-            weaknesses: analysis.weaknesses || [],
+}
 
-            opportunities: analysis.opportunities || [],
 
-            threats: analysis.threats || []
 
-          }),
 
 
 
 
 
-        market_analysis:
+const { error } = await supabase
 
-          JSON.stringify(
+.from("analyses")
 
-            analysis.marketAnalysis || {}
+.insert({
 
-          ),
 
 
+user_id:user.id,
 
 
 
+idea:startupIdea,
 
-        business_strategy:
 
-          JSON.stringify(
 
-            analysis.businessStrategy || {}
 
-          ),
 
 
+swot_report:JSON.stringify({
 
 
+strengths:analysis.strengths || [],
 
 
-        risks:
+weaknesses:analysis.weaknesses || [],
 
-          JSON.stringify(
 
-            analysis.risks || []
+opportunities:analysis.opportunities || [],
 
-          ),
 
+threats:analysis.threats || []
 
 
+}),
 
 
 
-        recommendations:
 
-          JSON.stringify(
 
-            analysis.recommendations || []
 
-          ),
+market_analysis:JSON.stringify(
 
+analysis.marketAnalysis || {}
 
+),
 
 
 
 
-        investor_pitch:
 
-          analysis.pitch || "",
 
+business_strategy:JSON.stringify(
 
+analysis.businessStrategy || {}
 
+),
 
 
 
-        confidence:
 
-          Number(
 
-            analysis.score || 0
 
-          )
+risks:JSON.stringify(
 
+analysis.risks || []
 
+),
 
-      });
 
 
 
 
 
+recommendations:JSON.stringify(
 
+analysis.recommendations || []
 
-      if(error){
+),
 
-        console.log(error);
 
-        alert(error.message);
 
-        return;
 
-      }
 
 
+investor_pitch:
 
+analysis.pitch || "",
 
 
 
-      setSaved(true);
 
 
 
+confidence:
 
-      setTimeout(()=>{
+Number(
 
-        setSaved(false);
+analysis.score || 0
 
-      },2000);
+)
 
 
 
+});
 
-    }
 
 
 
-    catch(error){
 
 
-      console.log(error);
 
-      alert("Failed to save analysis.");
 
 
-    }
+if(error){
 
 
+console.error(error);
 
-    finally{
 
+alert(error.message);
 
-      setLoading(false);
 
-
-    }
-
-
-  }
-
-
-
-
-
-
-
-
-  return (
-
-
-    <motion.button
-
-
-
-      whileHover={{
-
-        scale:1.04
-
-      }}
-
-
-
-      whileTap={{
-
-        scale:.97
-
-      }}
-
-
-
-
-
-
-      onClick={saveAnalysis}
-
-
-
-
-
-      disabled={loading}
-
-
-
-
-
-      className="
-
-      w-full
-
-      h-[64px]
-
-
-      bg-[#1F7A8C]
-
-      hover:bg-[#022B3A]
-
-
-      text-white
-
-
-      rounded-2xl
-
-
-      font-bold
-
-
-      text-base
-
-
-      flex
-
-      items-center
-
-      justify-center
-
-
-      gap-3
-
-
-      shadow-lg
-
-
-      transition
-
-
-      disabled:opacity-50
-
-      "
-
-
-
-    >
-
-
-
-
-
-
-      {
-
-        saved
-
-        ?
-
-        <Check size={22}/>
-
-        :
-
-        <Save size={22}/>
-
-      }
-
-
-
-
-
-      {
-
-        loading
-
-        ?
-
-        "Saving..."
-
-        :
-
-        saved
-
-        ?
-
-        "Saved!"
-
-        :
-
-        "Save Analysis"
-
-      }
-
-
-
-
-
-    </motion.button>
-
-
-  );
+return false;
 
 
 }
+
+
+
+
+
+
+
+
+setSaved(true);
+
+
+
+
+setTimeout(()=>{
+
+
+setSaved(false);
+
+
+},2000);
+
+
+
+
+
+return true;
+
+
+
+}
+
+
+
+
+
+catch(error){
+
+
+console.error(error);
+
+
+alert("Save failed.");
+
+
+return false;
+
+
+}
+
+
+
+
+
+
+finally{
+
+
+setLoading(false);
+
+
+}
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+// allows NewAnalysis auto save
+
+useImperativeHandle(ref,()=>({
+
+
+saveAnalysis
+
+
+}));
+
+
+
+
+
+
+
+
+
+return(
+
+
+
+<motion.button
+
+
+
+whileHover={{
+
+scale:1.08
+
+}}
+
+
+
+whileTap={{
+
+scale:.95
+
+}}
+
+
+
+
+
+onClick={saveAnalysis}
+
+
+
+
+
+disabled={loading}
+
+
+
+
+
+title={
+
+loading
+
+?
+
+"Saving..."
+
+:
+
+saved
+
+?
+
+"Saved"
+
+:
+
+"Save Analysis"
+
+}
+
+
+
+
+
+className="
+
+w-12
+
+h-12
+
+rounded-full
+
+bg-[#1F7A8C]
+
+hover:bg-[#022B3A]
+
+text-white
+
+flex
+
+items-center
+
+justify-center
+
+shadow-lg
+
+transition
+
+disabled:opacity-50
+
+"
+
+
+
+>
+
+
+
+{
+
+
+saved
+
+?
+
+<Check size={24}/>
+
+:
+
+<Save size={24}/>
+
+
+}
+
+
+
+
+
+</motion.button>
+
+
+
+);
+
+
+
+});
+
+
+
+
+
 
 
 export default SaveAnalysis;

@@ -11,6 +11,7 @@ function MarketAnalysis({ analysis }) {
   const data = analysis.marketAnalysis;
 
 
+
   const cards = [
 
     {
@@ -45,16 +46,10 @@ function MarketAnalysis({ analysis }) {
 
   return (
 
-    <section
 
-      className="
-        mb-10
-        w-full
-        flex
-        justify-center
-      "
+    <section className="mb-10 w-full">
 
-    >
+
 
 
 
@@ -86,24 +81,21 @@ function MarketAnalysis({ analysis }) {
 
         className="
 
-          w-full
-          max-w-5xl
-          mx-auto
+        w-full
 
-          bg-white
-          dark:bg-gray-900
+        bg-white
+        dark:bg-gray-900
 
-          border
-          border-gray-200
-          dark:border-gray-700
+        border
+        border-gray-200
+        dark:border-gray-700
 
-          rounded-3xl
+        rounded-3xl
 
-          p-4
-          sm:p-6
-          md:p-8
+        p-6
+        sm:p-8
 
-          shadow-sm
+        shadow-sm
 
         "
 
@@ -114,21 +106,19 @@ function MarketAnalysis({ analysis }) {
 
 
 
+
         <h3
 
           className="
 
-            text-2xl
-            sm:text-3xl
+          text-3xl
 
-            font-bold
+          font-bold
 
-            text-[#022B3A]
-            dark:text-white
+          text-[#022B3A]
+          dark:text-white
 
-            mb-6
-
-            text-center
+          mb-6
 
           "
 
@@ -151,16 +141,12 @@ function MarketAnalysis({ analysis }) {
 
           className="
 
-            grid
+          grid
 
-            grid-cols-1
-            md:grid-cols-2
+          grid-cols-1
+          md:grid-cols-2
 
-            gap-5
-
-            w-full
-
-            justify-items-center
+          gap-6
 
           "
 
@@ -168,7 +154,11 @@ function MarketAnalysis({ analysis }) {
 
 
 
+
+
+
         {
+
 
           cards.map((item,index)=>{
 
@@ -177,11 +167,14 @@ function MarketAnalysis({ analysis }) {
 
 
 
+
             return (
 
 
 
+
               <motion.div
+
 
 
                 key={index}
@@ -216,7 +209,8 @@ function MarketAnalysis({ analysis }) {
 
                 transition={{
 
-                  duration:.4
+                  duration:.4,
+                  delay:index * .1
 
                 }}
 
@@ -225,26 +219,24 @@ function MarketAnalysis({ analysis }) {
                 className="
 
 
-                  w-full
-                  max-w-md
+                w-full
 
+                p-6
 
-                  p-4
-                  sm:p-5
+                rounded-2xl
 
+                bg-[#F5F7FA]
 
-                  rounded-2xl
-
-
-                  bg-[#F5F7FA]
-
-                  dark:bg-gray-800
-
+                dark:bg-gray-800
 
                 "
 
 
+
               >
+
+
+
 
 
 
@@ -255,16 +247,13 @@ function MarketAnalysis({ analysis }) {
 
                   className="
 
-                    flex
-                    items-center
+                  flex
 
-                    justify-center
+                  items-center
 
-                    gap-3
+                  gap-3
 
-                    mb-3
-
-                    text-center
+                  mb-4
 
                   "
 
@@ -272,16 +261,47 @@ function MarketAnalysis({ analysis }) {
 
 
 
-                  <Icon
+
+
+                  <div
 
                     className="
-                      text-[#1F7A8C]
-                      flex-shrink-0
+
+                    w-12
+
+                    h-12
+
+                    rounded-xl
+
+                    bg-[#BFDBF7]
+
+                    flex
+
+                    items-center
+
+                    justify-center
+
                     "
 
-                    size={24}
+                  >
 
-                  />
+
+
+                    <Icon
+
+                      size={24}
+
+                      className="text-[#1F7A8C]"
+
+                    />
+
+
+
+                  </div>
+
+
+
+
 
 
 
@@ -291,20 +311,24 @@ function MarketAnalysis({ analysis }) {
 
                     className="
 
-                      font-bold
+                    text-xl
 
-                      text-[#022B3A]
+                    font-bold
 
-                      dark:text-white
+                    text-[#022B3A]
+
+                    dark:text-white
 
                     "
 
                   >
 
+
                     {item.title}
 
 
                   </h4>
+
 
 
 
@@ -323,18 +347,15 @@ function MarketAnalysis({ analysis }) {
 
                   className="
 
-                    text-gray-600
+                  text-gray-600
 
-                    dark:text-gray-300
+                  dark:text-gray-300
 
-                    leading-relaxed
+                  leading-relaxed
 
-                    text-sm
-                    sm:text-base
+                  text-sm
 
-                    text-center
-
-                    break-words
+                  sm:text-base
 
                   "
 
@@ -349,19 +370,30 @@ function MarketAnalysis({ analysis }) {
 
 
 
+
+
               </motion.div>
+
+
+
 
 
             );
 
 
+
           })
+
 
         }
 
 
 
+
+
         </div>
+
+
 
 
 
@@ -372,12 +404,17 @@ function MarketAnalysis({ analysis }) {
 
 
 
+
+
+
     </section>
 
 
   );
 
+
 }
+
 
 
 export default MarketAnalysis;

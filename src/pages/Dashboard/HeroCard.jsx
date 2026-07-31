@@ -15,7 +15,6 @@ function HeroCard() {
 
 
 
-
   useEffect(()=>{
 
 
@@ -37,18 +36,14 @@ function HeroCard() {
 
 
 
-
         if(email === "limarahimzai@gmail.com"){
-
 
           setName("Founder");
 
-
-        }else if(userName){
-
+        }
+        else if(userName){
 
           setName(userName);
-
 
         }
 
@@ -57,7 +52,6 @@ function HeroCard() {
 
 
     }
-
 
 
     getUser();
@@ -102,24 +96,25 @@ function HeroCard() {
 
 
 
-
       <div
 
 
-      className="
+        className="
 
-      relative
-      overflow-hidden
-      rounded-3xl
-      bg-gradient-to-r
-      from-[#022B3A]
-      via-[#1F7A8C]
-      to-[#0F4C5C]
-      p-10
-      text-white
-      shadow-2xl
+        relative
+        overflow-hidden
+        rounded-3xl
+        bg-gradient-to-r
+        from-[#022B3A]
+        via-[#1F7A8C]
+        to-[#0F4C5C]
+        p-6
+        sm:p-8
+        lg:p-10
+        text-white
+        shadow-2xl
 
-      "
+        "
 
 
       >
@@ -129,41 +124,32 @@ function HeroCard() {
 
 
 
-
-        {/* Floating background */}
-
-
         <motion.div
 
 
-        animate={{
-
-          y:[0,20,0]
-
-        }}
+          animate={{
+            y:[0,20,0]
+          }}
 
 
-        transition={{
-
-          duration:6,
-
-          repeat:Infinity
-
-        }}
+          transition={{
+            duration:6,
+            repeat:Infinity
+          }}
 
 
-        className="
+          className="
 
-        absolute
-        -right-20
-        -top-20
-        h-56
-        w-56
-        rounded-full
-        bg-[#BFDBF7]/20
-        blur-3xl
+          absolute
+          -right-20
+          -top-20
+          h-56
+          w-56
+          rounded-full
+          bg-[#BFDBF7]/20
+          blur-3xl
 
-        "
+          "
 
 
         />
@@ -177,32 +163,30 @@ function HeroCard() {
         <motion.div
 
 
-        animate={{
+          animate={{
 
-          y:[0,-15,0],
+            y:[0,-15,0],
+            rotate:[0,8,0]
 
-          rotate:[0,8,0]
-
-        }}
-
-
-        transition={{
-
-          duration:5,
-
-          repeat:Infinity
-
-        }}
+          }}
 
 
-        className="
+          transition={{
 
-        absolute
-        right-10
-        bottom-5
-        opacity-20
+            duration:5,
+            repeat:Infinity
 
-        "
+          }}
+
+
+          className="
+
+          absolute
+          right-10
+          bottom-5
+          opacity-20
+
+          "
 
 
         >
@@ -223,21 +207,20 @@ function HeroCard() {
         <div
 
 
-        className="
+          className="
 
-        relative
-        flex
-        flex-col
-        lg:flex-row
-        items-center
-        justify-between
-        gap-8
+          relative
+          flex
+          flex-col
+          lg:flex-row
+          items-center
+          justify-between
+          gap-8
 
-        "
+          "
 
 
         >
-
 
 
 
@@ -253,20 +236,20 @@ function HeroCard() {
             <div
 
 
-            className="
+              className="
 
-            inline-flex
-            items-center
-            gap-2
-            bg-white/10
-            border
-            border-white/20
-            px-4
-            py-2
-            rounded-full
-            mb-6
+              inline-flex
+              items-center
+              gap-2
+              bg-white/10
+              border
+              border-white/20
+              px-4
+              py-2
+              rounded-full
+              mb-6
 
-            "
+              "
 
 
             >
@@ -290,113 +273,92 @@ function HeroCard() {
 
 
 
+          <h1
+
+className="
+
+text-4xl
+sm:text-5xl
+md:text-6xl
+font-bold
+leading-tight
+flex
+items-center
+gap-3
+
+"
+
+>
+
+  Hi, {name}
 
 
-            <h2
+  <motion.div
+
+    animate={{
+      rotate:[0,20,0]
+    }}
+
+    transition={{
+      duration:1.5,
+      repeat:Infinity
+    }}
+
+  >
+
+    <Hand
+
+      size={50}
+
+      className="text-[#BFDBF7]"
+
+    />
+
+  </motion.div>
 
 
-            className="
-
-            text-4xl
-            font-bold
-            leading-tight
-
-            "
-
-
-            >
-
-
-
-
-
-              <div className="flex items-center gap-3">
-
-
-                <span>
-
-                  Hi, {name}
-
-                </span>
-
-
-
-
-
-                {/* Modern waving hand icon */}
-
-
-                <motion.div
-
-
-                animate={{
-
-                  rotate:[0,20,0]
-
-                }}
-
-
-                transition={{
-
-                  duration:1.5,
-
-                  repeat:Infinity
-
-                }}
-
-
-                >
-
-
-                  <Hand
-
-                    size={34}
-
-                    className="text-[#BFDBF7]"
-
-                  />
-
-
-                </motion.div>
+</h1>
 
 
 
 
-              </div>
+<h2
+
+className="
+
+mt-3
+text-2xl
+sm:text-3xl
+md:text-4xl
+font-bold
+leading-tight
+
+"
+
+>
+
+  Ready to build your next big idea?
 
 
+</h2>
 
-
-
-
-              <br/>
-
-
-              Ready to build your next big idea?
-
-
-
-            </h2>
-
-
-
-
-
-
+                        
 
 
 
             <p
 
 
-            className="
+              className="
 
-            mt-5
-            text-[#E1E5F2]
-            text-lg
-            leading-relaxed
+              mt-5
+              text-[#E1E5F2]
+              text-sm
+              sm:text-base
+              lg:text-lg
+              leading-relaxed
 
-            "
+              "
 
 
             >
@@ -409,6 +371,7 @@ function HeroCard() {
 
 
             </p>
+
 
 
 
@@ -430,40 +393,45 @@ function HeroCard() {
           <motion.button
 
 
-          whileHover={{
+            whileHover={{
 
-            scale:1.05
+              scale:1.05
 
-          }}
-
-
-          whileTap={{
-
-            scale:.95
-
-          }}
+            }}
 
 
+            whileTap={{
 
-          onClick={()=>navigate("/new-analysis")}
+              scale:.95
+
+            }}
 
 
 
-          className="
+            onClick={()=>navigate("/new-analysis")}
 
-          bg-white
-          text-[#022B3A]
-          px-8
-          py-4
-          rounded-2xl
-          font-semibold
-          flex
-          items-center
-          gap-3
-          shadow-xl
-          transition
 
-          "
+
+            className="
+
+            w-full
+            sm:w-auto
+            bg-white
+            text-[#022B3A]
+            px-6
+            sm:px-8
+            py-3
+            sm:py-4
+            rounded-2xl
+            font-semibold
+            flex
+            items-center
+            justify-center
+            gap-3
+            shadow-xl
+            transition
+
+            "
 
 
           >
@@ -484,6 +452,7 @@ function HeroCard() {
 
 
 
+
         </div>
 
 
@@ -491,7 +460,9 @@ function HeroCard() {
 
 
 
+
       </div>
+
 
 
 

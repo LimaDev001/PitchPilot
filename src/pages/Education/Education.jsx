@@ -4,7 +4,10 @@ import {
   Target,
   BarChart3,
   Presentation,
+  BookOpenCheck,
 } from "lucide-react";
+
+import { motion } from "framer-motion";
 
 import DashboardLayout from "../Dashboard/DashboardLayout";
 
@@ -45,7 +48,6 @@ video:
 
 
 
-
 {
 icon: Target,
 
@@ -61,8 +63,6 @@ video:
 
 
 
-
-
 {
 icon: BarChart3,
 
@@ -75,8 +75,6 @@ video:
 "https://www.youtube.com/embed/CqaFYgRGDmo"
 
 },
-
-
 
 
 
@@ -100,6 +98,8 @@ video:
 
 
 
+
+
 return (
 
 <DashboardLayout>
@@ -111,7 +111,23 @@ return (
 
 
 
+
+
+{/* HEADER */}
+
 <div>
+
+
+<div
+
+className="
+flex
+items-center
+gap-5
+"
+
+>
+
 
 
 <div
@@ -128,15 +144,40 @@ justify-center
 
 >
 
-<Presentation
 
-size={35}
+<motion.div
+
+animate={{
+y:[0,-6,0]
+}}
+
+transition={{
+
+duration:2,
+
+repeat:Infinity
+
+}}
+
+>
+
+
+<BookOpenCheck
+
+size={38}
 
 className="text-[#1F7A8C]"
 
 />
 
+
+</motion.div>
+
+
 </div>
+
+
+
 
 
 
@@ -146,16 +187,24 @@ className="text-[#1F7A8C]"
 className="
 text-4xl
 font-bold
-mt-5
 text-[#022B3A]
 dark:text-white
 "
 
 >
 
-PitchPilot Education 🚀
+PitchPilot Education 
 
 </h1>
+
+
+
+</div>
+
+
+
+
+
 
 
 
@@ -177,6 +226,8 @@ Learn startup skills with simple explanations and practical videos.
 
 
 </div>
+
+
 
 
 
@@ -207,9 +258,15 @@ const Icon = lesson.icon;
 return(
 
 
-<div
+<motion.div
 
 key={index}
+
+whileHover={{
+
+y:-5
+
+}}
 
 className="
 bg-white
@@ -221,6 +278,8 @@ shadow-sm
 "
 
 >
+
+
 
 
 
@@ -238,6 +297,7 @@ justify-center
 
 >
 
+
 <Icon
 
 size={30}
@@ -246,7 +306,10 @@ className="text-[#1F7A8C]"
 
 />
 
+
 </div>
+
+
 
 
 
@@ -275,6 +338,7 @@ dark:text-white
 
 
 
+
 <p
 
 className="
@@ -288,6 +352,7 @@ dark:text-gray-400
 {lesson.description}
 
 </p>
+
 
 
 
@@ -338,7 +403,9 @@ allowFullScreen
 
 
 
-</div>
+
+
+</motion.div>
 
 
 )
@@ -352,6 +419,8 @@ allowFullScreen
 
 
 </div>
+
+
 
 
 

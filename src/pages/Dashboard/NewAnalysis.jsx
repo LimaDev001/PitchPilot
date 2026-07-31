@@ -1,6 +1,11 @@
-import { useState } from "react";
+import {
+  useState,
+  useRef
+} from "react";
+
 
 import DashboardLayout from "./DashboardLayout";
+
 
 import IdeaForm from "./IdeaForm";
 import StartupScore from "./StartupScore";
@@ -12,367 +17,447 @@ import Recommendations from "./Recommendations";
 import InvestorPitchCard from "./InvestorPitchCard";
 import SaveAnalysis from "./SaveAnalysis";
 
-import { generatePDF } from "../../utils/generatePDF";
 
+import {
+  FileText
+} from "lucide-react";
 
 
-function NewAnalysis() {
+import {
+  motion
+} from "framer-motion";
 
 
-  const [startupIdea, setStartupIdea] = useState("");
+import {
+  generatePDF
+} from "../../utils/generatePDF";
 
-  const [analysis, setAnalysis] = useState(null);
 
 
 
-  return (
 
+function NewAnalysis(){
 
-    <DashboardLayout>
 
 
-      <div className="w-full max-w-6xl mx-auto overflow-hidden">
+const [startupIdea,setStartupIdea] = useState("");
 
+const [analysis,setAnalysis] = useState(null);
 
-        {/* Page Header */}
 
+const saveRef = useRef(null);
 
-        <div className="mb-8 text-left">
+const autoSaved = useRef(false);
 
 
-          <div
 
-            className="
-            inline-flex
-            items-center
-            gap-2
-            px-3
-            py-2
-            md:px-4
-            rounded-full
-            bg-[#1F7A8C]/10
-            text-[#1F7A8C]
-            font-medium
-            text-sm
-            mb-5
-            "
 
-          >
 
-            🚀 Startup Intelligence
 
-          </div>
 
 
 
+function isAutoSaveEnabled(){
 
 
-          <h1
 
-            className="
-            text-2xl
-            sm:text-3xl
-            md:text-4xl
-            font-bold
-            text-gray-800
-            dark:text-white
-            break-words
-            "
+const settings = JSON.parse(
 
-          >
+localStorage.getItem("pitchpilot-settings")
 
-            Analyze Your Startup Idea
+);
 
-          </h1>
 
 
-
-
-
-          <p
-
-            className="
-            mt-3
-            max-w-3xl
-            text-sm
-            md:text-lg
-            text-gray-500
-            dark:text-gray-400
-            break-words
-            "
-
-          >
-
-            Describe your startup idea and let PitchPilot AI validate your
-            concept, generate SWOT analysis, analyze market opportunities,
-            create business strategies, evaluate risks, and build an
-            investor-ready pitch.
-
-          </p>
-
-
-        </div>
-
-
-
-
-
-        {/* Idea Form */}
-
-
-        <div className="w-full overflow-hidden">
-
-
-          <IdeaForm
-
-            startupIdea={startupIdea}
-
-            setStartupIdea={setStartupIdea}
-
-            setAnalysis={setAnalysis}
-
-          />
-
-
-        </div>
-
-
-
-
-
-        {/* AI Results */}
-
-
-        <div
-
-          className="
-          w-full
-          mt-8
-          space-y-6
-          overflow-hidden
-          "
-
-        >
-
-
-          <StartupScore
-
-            analysis={analysis}
-
-          />
-
-
-
-
-
-          <SWOTAnalysis
-
-            analysis={analysis}
-
-          />
-
-
-
-
-
-          <MarketAnalysis
-
-            analysis={analysis}
-
-          />
-
-
-
-
-
-          <BusinessStrategy
-
-            analysis={analysis}
-
-          />
-
-
-
-
-
-          <RiskAnalysis
-
-            analysis={analysis}
-
-          />
-
-
-
-
-
-          <Recommendations
-
-            analysis={analysis}
-
-          />
-
-
-
-
-
-          <InvestorPitchCard
-
-            analysis={analysis}
-
-          />
-
-
-
-        </div>
-
-                {/* Bottom Actions */}
-
-
-        {
-          analysis && (
-
-            <div
-
-              className="
-              w-full
-              flex
-              flex-col
-              sm:flex-row
-              justify-center
-              items-center
-              gap-5
-              mt-10
-              mb-10
-              "
-
-            >
-
-
-
-
-
-              <button
-
-
-                onClick={()=>
-
-
-                  generatePDF(
-
-                    analysis,
-
-                    startupIdea
-
-                  )
-
-
-                }
-
-
-
-                className="
-
-                w-full
-
-                sm:w-[280px]
-
-                h-[64px]
-
-
-                bg-[#1F7A8C]
-
-                text-white
-
-
-                rounded-2xl
-
-
-                font-bold
-
-
-                text-base
-
-
-                shadow-lg
-
-
-                hover:bg-[#022B3A]
-
-
-                transition
-
-
-                flex
-
-                items-center
-
-                justify-center
-
-
-                "
-
-              >
-
-                📄 Download AI Report PDF
-
-
-              </button>
-
-
-
-
-
-
-
-
-
-              <div
-
-                className="
-                w-full
-                sm:w-[280px]
-                "
-
-              >
-
-
-                <SaveAnalysis
-
-
-                  startupIdea={startupIdea}
-
-
-                  analysis={analysis}
-
-
-                />
-
-
-              </div>
-
-
-
-
-
-            </div>
-
-
-          )
-        }
-
-
-
-
-      </div>
-
-
-    </DashboardLayout>
-
-
-  );
+return settings?.autoSave ?? true;
 
 
 }
+
+
+
+
+
+
+
+
+
+async function handleAnalysis(result){
+
+
+
+setAnalysis(result);
+
+
+
+// reset auto save
+
+autoSaved.current = false;
+
+
+
+
+
+
+if(isAutoSaveEnabled()){
+
+
+
+setTimeout(async()=>{
+
+
+
+if(
+saveRef.current &&
+!autoSaved.current
+){
+
+
+const success = await saveRef.current.saveAnalysis();
+
+
+
+if(success){
+
+autoSaved.current = true;
+
+console.log(
+"Auto saved successfully"
+);
+
+
+}
+
+
+
+}
+
+
+
+},1200);
+
+
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+return(
+
+
+<DashboardLayout>
+
+
+<div className="w-full max-w-6xl mx-auto overflow-hidden">
+
+
+
+
+
+
+
+<div className="mb-8 text-left">
+
+
+<div
+
+className="
+inline-flex
+items-center
+gap-2
+px-4
+py-2
+rounded-full
+bg-[#1F7A8C]/10
+text-[#1F7A8C]
+font-medium
+text-sm
+mb-5
+"
+
+>
+
+🚀 Startup Intelligence
+
+</div>
+
+
+
+
+
+
+
+
+<h1
+
+className="
+text-4xl
+font-bold
+text-gray-800
+dark:text-white
+"
+
+>
+
+Analyze Your Startup Idea
+
+</h1>
+
+
+
+
+
+
+
+
+<p
+
+className="
+mt-3
+max-w-3xl
+text-gray-500
+dark:text-gray-400
+"
+
+>
+
+Describe your startup idea and let PitchPilot AI validate your concept,
+generate SWOT analysis, market insights, business strategies,
+risk analysis and investor-ready pitches.
+
+</p>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<IdeaForm
+
+
+startupIdea={startupIdea}
+
+
+setStartupIdea={setStartupIdea}
+
+
+setAnalysis={handleAnalysis}
+
+
+/>
+
+
+
+
+
+
+
+
+
+
+
+<div
+
+className="
+mt-8
+space-y-6
+"
+
+>
+
+
+<StartupScore analysis={analysis}/>
+
+
+<SWOTAnalysis analysis={analysis}/>
+
+
+<MarketAnalysis analysis={analysis}/>
+
+
+<BusinessStrategy analysis={analysis}/>
+
+
+<RiskAnalysis analysis={analysis}/>
+
+
+<Recommendations analysis={analysis}/>
+
+
+<InvestorPitchCard analysis={analysis}/>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+{
+
+analysis && (
+
+
+
+<div
+
+className="
+flex
+justify-center
+items-center
+gap-5
+mt-10
+mb-10
+"
+
+>
+
+
+
+
+
+
+
+<motion.button
+
+
+whileHover={{
+scale:1.08
+}}
+
+
+whileTap={{
+scale:.95
+}}
+
+
+
+
+onClick={()=>
+
+
+generatePDF(
+
+analysis,
+
+startupIdea
+
+)
+
+
+}
+
+
+
+title="Download AI Report"
+
+
+
+className="
+w-12
+h-12
+rounded-full
+bg-[#1F7A8C]
+hover:bg-[#022B3A]
+text-white
+flex
+items-center
+justify-center
+shadow-lg
+transition
+"
+
+>
+
+
+<FileText size={24}/>
+
+
+</motion.button>
+
+
+
+
+
+
+
+
+
+<SaveAnalysis
+
+
+ref={saveRef}
+
+
+startupIdea={startupIdea}
+
+
+analysis={analysis}
+
+
+/>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+)
+
+
+
+}
+
+
+
+
+
+
+
+</div>
+
+
+</DashboardLayout>
+
+
+);
+
+
+}
+
 
 
 export default NewAnalysis;
