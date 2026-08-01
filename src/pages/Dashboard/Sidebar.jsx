@@ -114,16 +114,16 @@ function Sidebar(){
     },
 
     {
-      name:"Settings",
-      icon:Settings,
-      path:"/settings"
-    },
+  name:"Education",
+  icon:BookOpen,
+  path:"/education"
+},
 
-    {
-      name:"Education",
-      icon:BookOpen,
-      path:"/education"
-    }
+{
+  name:"Settings",
+  icon:Settings,
+  path:"/settings"
+}
 
   ];
 

@@ -849,41 +849,27 @@ text-white
 
 
 
+                <button
 
+              onClick={()=>deleteUser(user.id)}
+              title="Delete User"
+              className="
+              p-3
+              rounded-xl
+              bg-[#BFDBF7]
+              text-[#1F7A8C]
+              hover:bg-[#1F7A8C]
+              hover:text-white
+              shadow-md
+              transition-all
+              duration-300
+              "
 
+>
 
+<             Trash2 size={20}/>
 
-            <button
-
-
-
-            onClick={()=>deleteUser(user.id)}
-
-
-
-            className="
-            p-3
-            rounded-xl
-            text-red-500
-            hover:bg-red-100
-            dark:hover:bg-red-500/10
-            "
-
-
-
-            >
-
-
-
-            <Trash2 size={20}/>
-
-
-
-            </button>
-
-
-
-
+                </button>
 
 
 
