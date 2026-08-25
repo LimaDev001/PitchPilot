@@ -1,110 +1,65 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { supabase } from "../lib/supabase";
 
-
-// Create Context
 const AuthContext = createContext();
 
-
-// Provider
 export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    // Check current Supabase session
+    supabase.auth.getSession().then(({ data }) => {
+      setUser(data.session?.user || null);
+      setLoading(false);
+    });
 
-  const [user, setUser] = useState(() => {
+    // Listen for login/logout/signup
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+    });
 
-    const savedUser = localStorage.getItem("user");
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
-    return savedUser
-      ? JSON.parse(savedUser)
-      : null;
-
-  });
-
-
-
-  function signup(userData) {
-
-    localStorage.setItem(
-      "user",
-      JSON.stringify(userData)
-    );
-
-
-    setUser(userData);
-
+  async function signup(email, password) {
+    return await supabase.auth.signUp({
+      email,
+      password,
+    });
   }
 
-
-
-
-  function login(email, password) {
-
-
-    const savedUser =
-      JSON.parse(
-        localStorage.getItem("user")
-      );
-
-
-    if (
-      savedUser &&
-      savedUser.email === email &&
-      savedUser.password === password
-    ) {
-
-
-      setUser(savedUser);
-
-      return true;
-
-    }
-
-
-    return false;
-
+  async function login(email, password) {
+    return await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
   }
 
-
-
-
-  function logout() {
-
-    localStorage.removeItem("user");
-
+  async function logout() {
+    await supabase.auth.signOut();
     setUser(null);
-
   }
-
-
-
-
 
   return (
-
     <AuthContext.Provider
-
       value={{
         user,
+        loading,
         signup,
         login,
-        logout
+        logout,
       }}
-
     >
-
       {children}
-
     </AuthContext.Provider>
-
   );
-
 }
 
-
-
-
-// Hook
-export function useAuth(){
-
+export function useAuth() {
   return useContext(AuthContext);
-
 }
