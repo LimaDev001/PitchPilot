@@ -84,7 +84,7 @@ npm run dev
 (Add your screenshots here)
 
 <img width="1897" height="907" alt="1" src="https://github.com/user-attachments/assets/7fc0b2a8-e26e-4cf0-a579-eab1259c2149" />
-<img width="1908" height="906" alt="setting" src="https://github.com/user-attachments/assets/c7039261-9023-4eb8-96ae-0d434128788c" />
+<img width="1896" height="912" alt="s2" src="https://github.com/user-attachments/assets/ed69ca4c-8488-482c-b9ab-49c046c3e0d4" />
 <img width="1892" height="905" alt="Dashboard Page" src="https://github.com/user-attachments/assets/108fcc9d-13d6-4624-9f59-c30064924576" />
 <img width="1892" height="913" alt="New Analysis Page" src="https://github.com/user-attachments/assets/8d154b62-f269-4728-9dbc-bdceeed54f1d" />
 <img width="1888" height="907" alt="SWOT" src="https://github.com/user-attachments/assets/bce94fcf-32bc-4651-89ed-23fa8a6135a7" />
