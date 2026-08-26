@@ -1,4 +1,4 @@
- Startup Coach
+<img width="1896" height="909" alt="a4" src="https://github.com/user-attachments/assets/3e95aa45-1596-4ff5-a235-bb7456baf50a" /> Startup Coach
 
 PitchPilot is an AI-powered startup validation platform that helps entrepreneurs analyze and improve their business ideas before building them.
 
@@ -83,13 +83,14 @@ npm run dev
 
 (Add your screenshots here)
 
-<img width="1897" height="907" alt="1" src="https://github.com/user-attachments/assets/7fc0b2a8-e26e-4cf0-a579-eab1259c2149" />
-<img width="1896" height="912" alt="s2" src="https://github.com/user-attachments/assets/ed69ca4c-8488-482c-b9ab-49c046c3e0d4" />
-<img width="1892" height="905" alt="Dashboard Page" src="https://github.com/user-attachments/assets/108fcc9d-13d6-4624-9f59-c30064924576" />
-<img width="1892" height="913" alt="New Analysis Page" src="https://github.com/user-attachments/assets/8d154b62-f269-4728-9dbc-bdceeed54f1d" />
-<img width="1888" height="907" alt="SWOT" src="https://github.com/user-attachments/assets/bce94fcf-32bc-4651-89ed-23fa8a6135a7" />
-<img width="1887" height="911" alt="AI Analysis Results" src="https://github.com/user-attachments/assets/86caa600-c423-4494-8190-2bf35f49096b" />
-<img width="1886" height="905" alt="founder" src="https://github.com/user-attachments/assets/555086b2-e4f8-4515-b388-f78411cdab72" />
+
+<img width="1899" height="871" alt="a1" src="https://github.com/user-attachments/assets/bfade737-2810-4482-8617-cac0771dee29" />
+<img width="1897" height="874" alt="a2" src="https://github.com/user-attachments/assets/62a6405f-74ca-4dec-bdce-01afe625bde1" />
+<img width="1894" height="873" alt="a3" src="https://github.com/user-attachments/assets/ea3c9b7e-85c0-400a-ace2-eed1004a4beb" />
+![Uploading a4.PNG…]()
+<img width="1896" height="912" alt="a5" src="https://github.com/user-attachments/assets/309633c7-b432-4199-bb3c-4bdbc6af8ba0" />
+
+
 
 
 
