@@ -17,629 +17,552 @@ import {
 import { motion } from "framer-motion";
 
 import DashboardLayout from "../Dashboard/DashboardLayout";
-import { supabase } from "../../lib/supabase";
 
 
 
-function Report(){
+function Report() {
 
 
-const {id}=useParams();
+  const { id } = useParams();
 
 
-const [report,setReport]=useState(null);
+  const [report, setReport] = useState(null);
 
-const [loading,setLoading]=useState(true);
+  const [loading, setLoading] = useState(true);
 
 
 
 
+  useEffect(() => {
 
+    loadReport();
 
+  }, [id]);
 
-useEffect(()=>{
 
-loadReport();
 
-},[]);
 
+  function loadReport() {
 
+    try {
 
+      // Get all saved analyses from LocalStorage
+      const savedAnalyses = JSON.parse(
+        localStorage.getItem("analyses") || "[]"
+      );
 
 
+      // Find the analysis matching the URL ID
+      const data = savedAnalyses.find(
+        (item) => String(item.id) === String(id)
+      );
 
 
-async function loadReport(){
+      if (!data) {
 
+        setLoading(false);
 
-const {data,error}=await supabase
+        return;
 
-.from("analyses")
+      }
 
-.select("*")
 
-.eq("id",id)
 
-.single();
+      let swot = {};
 
+      let market = {};
 
+      let strategy = {};
 
+      let risks = [];
 
-if(error){
+      let recommendations = [];
 
-console.log(error.message);
 
-setLoading(false);
 
-return;
+      try {
 
-}
+        swot = JSON.parse(data.swot_report || "{}");
 
+      }
 
+      catch { }
 
 
-let swot={};
 
-let market={};
+      try {
 
-let strategy={};
+        market = JSON.parse(data.market_analysis || "{}");
 
-let risks=[];
+      }
 
-let recommendations=[];
+      catch { }
 
 
 
-try{
+      try {
 
-swot=JSON.parse(data.swot_report || "{}");
+        strategy = JSON.parse(data.business_strategy || "{}");
 
-}
+      }
 
-catch{}
+      catch { }
 
 
 
-try{
+      try {
 
-market=JSON.parse(data.market_analysis || "{}");
+        risks = JSON.parse(data.risks || "[]");
 
-}
+      }
 
-catch{}
+      catch { }
 
 
 
-try{
+      try {
 
-strategy=JSON.parse(data.business_strategy || "{}");
+        recommendations = JSON.parse(
+          data.recommendations || "[]"
+        );
 
-}
+      }
 
-catch{}
+      catch { }
 
 
 
-try{
+      setReport({
 
-risks=JSON.parse(data.risks || "[]");
+        idea: data.idea,
 
-}
+        score: data.confidence || 0,
 
-catch{}
 
+        strengths: swot.strengths || [],
 
+        weaknesses: swot.weaknesses || [],
 
-try{
+        opportunities: swot.opportunities || [],
 
-recommendations=JSON.parse(data.recommendations || "[]");
+        threats: swot.threats || [],
 
-}
 
-catch{}
+        market,
 
+        strategy,
 
+        risks,
 
+        recommendations,
 
-setReport({
 
-idea:data.idea,
+        pitch: data.investor_pitch || ""
 
-score:data.confidence || 0,
+      });
 
 
-strengths:swot.strengths || [],
+    }
 
-weaknesses:swot.weaknesses || [],
+    catch (error) {
 
-opportunities:swot.opportunities || [],
+      console.error("Failed to load report:", error);
 
-threats:swot.threats || [],
+    }
 
+    finally {
 
-market,
+      setLoading(false);
 
-strategy,
+    }
 
-risks,
+  }
 
-recommendations,
 
 
-pitch:data.investor_pitch || ""
 
-});
 
+  if (loading) {
 
+    return (
 
-setLoading(false);
+      <DashboardLayout>
 
+        <div className="flex justify-center py-20">
 
-}
+          <Loader className="animate-spin" />
 
+        </div>
 
+      </DashboardLayout>
 
+    );
 
+  }
 
 
 
 
 
-if(loading){
+  if (!report) {
 
+    return (
 
-return(
+      <DashboardLayout>
 
-<DashboardLayout>
+        <div className="text-center py-20">
 
-<div className="flex justify-center py-20">
+          <h2 className="text-2xl font-bold">
 
-<Loader className="animate-spin"/>
+            Report not found
 
-</div>
+          </h2>
 
-</DashboardLayout>
+        </div>
 
-)
+      </DashboardLayout>
 
+    );
 
-}
+  }
 
 
 
 
 
+  return (
 
+    <DashboardLayout>
 
+      <div className="space-y-8">
 
-if(!report){
 
+        <Link
 
-return(
+          to="/history"
 
-<DashboardLayout>
+          className="
+            flex
+            items-center
+            gap-2
+            text-[#1F7A8C]
+            font-semibold
+          "
 
-<div className="text-center py-20">
+        >
 
-<h2 className="text-2xl font-bold">
+          <ArrowLeft size={20} />
 
-Report not found
+          Back to History
 
-</h2>
+        </Link>
 
-</div>
 
-</DashboardLayout>
 
-)
 
-}
+        {/* HEADER */}
 
+        <motion.div
 
+          initial={{ opacity: 0, y: 20 }}
 
+          animate={{ opacity: 1, y: 0 }}
 
+          className="
+            bg-white
+            dark:bg-gray-900
+            border
+            rounded-3xl
+            p-8
+          "
 
+        >
 
+          <div className="flex items-center gap-5">
 
 
+            <div
 
-return(
+              className="
+                w-16
+                h-16
+                rounded-2xl
+                bg-[#BFDBF7]
+                flex
+                items-center
+                justify-center
+              "
 
+            >
 
-<DashboardLayout>
+              <Rocket
 
+                size={35}
 
-<div className="space-y-8">
+                className="text-[#022B3A]"
 
+              />
 
+            </div>
 
 
 
+            <div>
 
-<Link
+              <h1 className="
+                text-4xl
+                font-bold
+                dark:text-white
+              ">
 
-to="/history"
+                {report.idea}
 
-className="
-flex
-items-center
-gap-2
-text-[#1F7A8C]
-font-semibold
-"
+              </h1>
 
->
 
-<ArrowLeft size={20}/>
+              <p className="
+                text-gray-500
+                mt-2
+              ">
 
-Back to History
+                PitchPilot AI Startup Report
 
-</Link>
+              </p>
 
+            </div>
 
 
+          </div>
 
+        </motion.div>
 
 
 
 
+        {/* SCORE */}
 
-{/* HEADER */}
+        <Card>
 
+          <div className="flex items-center gap-3">
 
+            <BarChart3 className="text-[#1F7A8C]" />
 
-<motion.div
+            <h2 className="text-2xl font-bold dark:text-white">
 
-initial={{opacity:0,y:20}}
+              Startup Potential Score
 
-animate={{opacity:1,y:0}}
+            </h2>
 
-className="
-bg-white
-dark:bg-gray-900
-border
-rounded-3xl
-p-8
-"
+          </div>
 
->
 
+          <h3 className="
+            text-6xl
+            font-bold
+            text-[#1F7A8C]
+            mt-6
+          ">
 
-<div className="flex items-center gap-5">
+            {report.score}/100
 
+          </h3>
 
-<div
 
-className="
-w-16
-h-16
-rounded-2xl
-bg-[#BFDBF7]
-flex
-items-center
-justify-center
-"
+          <p className="text-gray-500 mt-4">
 
->
+            AI evaluation based on market demand, scalability,
+            competition, and investment potential.
 
-<Rocket
+          </p>
 
-size={35}
+        </Card>
 
-className="text-[#022B3A]"
 
-/>
 
 
-</div>
+        {/* SWOT */}
 
+        <div className="
+          grid
+          md:grid-cols-2
+          gap-6
+        ">
 
+          <SWOTCard
+            title="Strengths"
+            icon={ShieldCheck}
+            items={report.strengths}
+          />
 
+          <SWOTCard
+            title="Weaknesses"
+            icon={AlertTriangle}
+            items={report.weaknesses}
+          />
 
-<div>
+          <SWOTCard
+            title="Opportunities"
+            icon={TrendingUp}
+            items={report.opportunities}
+          />
 
+          <SWOTCard
+            title="Threats"
+            icon={AlertTriangle}
+            items={report.threats}
+          />
 
-<h1 className="
-text-4xl
-font-bold
-dark:text-white
-">
+        </div>
 
-{report.idea}
 
-</h1>
 
 
-<p className="
-text-gray-500
-mt-2
-">
+        {/* MARKET */}
 
-PitchPilot AI Startup Report
+        <Card>
 
-</p>
+          <div className="flex gap-3 items-center">
 
+            <Target className="text-[#1F7A8C]" />
 
-</div>
+            <h2 className="text-2xl font-bold dark:text-white">
 
+              Market Opportunity Analysis
 
+            </h2>
 
-</div>
+          </div>
 
 
-</motion.div>
+          <TextBlock
+            title="Target Users"
+            value={report.market?.targetUsers}
+          />
 
+          <TextBlock
+            title="Market Demand"
+            value={report.market?.marketDemand}
+          />
 
+          <TextBlock
+            title="Competitors"
+            value={report.market?.competitors}
+          />
 
+          <TextBlock
+            title="Growth Opportunity"
+            value={report.market?.growthOpportunity}
+          />
 
+        </Card>
 
 
 
 
+        {/* BUSINESS STRATEGY */}
 
-{/* SCORE */}
+        <Card>
 
+          <h2 className="text-2xl font-bold dark:text-white">
 
+            Business Strategy Generator
 
-<Card>
+          </h2>
 
 
-<div className="flex items-center gap-3">
+          <TextBlock
+            title="Business Model"
+            value={report.strategy?.businessModel}
+          />
 
+          <TextBlock
+            title="Monetization"
+            value={report.strategy?.monetization}
+          />
 
-<BarChart3 className="text-[#1F7A8C]"/>
+          <TextBlock
+            title="Growth Strategy"
+            value={report.strategy?.growthStrategy}
+          />
 
+        </Card>
 
-<h2 className="text-2xl font-bold dark:text-white">
 
-Startup Potential Score
 
-</h2>
 
+        {/* RISKS */}
 
-</div>
+        <ListSection
 
+          title="Risk Evaluation"
 
-<h3 className="
-text-6xl
-font-bold
-text-[#1F7A8C]
-mt-6
-">
+          icon={AlertTriangle}
 
-{report.score}/100
+          items={report.risks}
 
-</h3>
+        />
 
 
-<p className="text-gray-500 mt-4">
 
-AI evaluation based on market demand, scalability, competition, and investment potential.
 
-</p>
+        {/* RECOMMENDATIONS */}
 
+        <ListSection
 
-</Card>
+          title="AI Recommendations"
 
+          icon={Lightbulb}
 
+          items={report.recommendations}
 
+        />
 
 
 
 
+        {/* PITCH */}
 
+        <div
 
-{/* SWOT */}
+          className="
+            bg-gradient-to-r
+            from-[#022B3A]
+            to-[#1F7A8C]
+            text-white
+            rounded-3xl
+            p-8
+          "
 
+        >
 
+          <Presentation size={32} />
 
-<div className="
-grid
-md:grid-cols-2
-gap-6
-">
 
+          <h2 className="text-3xl font-bold mt-4">
 
-<SWOTCard title="Strengths" icon={ShieldCheck} items={report.strengths}/>
+            Investor Pitch
 
+          </h2>
 
-<SWOTCard title="Weaknesses" icon={AlertTriangle} items={report.weaknesses}/>
 
+          <p className="
+            mt-4
+            leading-8
+            text-lg
+          ">
 
-<SWOTCard title="Opportunities" icon={TrendingUp} items={report.opportunities}/>
+            {report.pitch}
 
+          </p>
 
-<SWOTCard title="Threats" icon={AlertTriangle} items={report.threats}/>
+        </div>
 
 
-</div>
+      </div>
 
+    </DashboardLayout>
 
-
-
-
-
-
-
-
-{/* MARKET */}
-
-
-
-<Card>
-
-
-<div className="flex gap-3 items-center">
-
-<Target className="text-[#1F7A8C]"/>
-
-<h2 className="text-2xl font-bold dark:text-white">
-
-Market Opportunity Analysis
-
-</h2>
-
-</div>
-
-
-
-<TextBlock title="Target Users" value={report.market?.targetUsers}/>
-
-
-<TextBlock title="Market Demand" value={report.market?.marketDemand}/>
-
-
-<TextBlock title="Competitors" value={report.market?.competitors}/>
-
-
-<TextBlock title="Growth Opportunity" value={report.market?.growthOpportunity}/>
-
-
-
-</Card>
-
-
-
-
-
-
-
-
-
-{/* BUSINESS STRATEGY */}
-
-
-
-<Card>
-
-
-<h2 className="text-2xl font-bold dark:text-white">
-
-Business Strategy Generator
-
-</h2>
-
-
-
-<TextBlock title="Business Model" value={report.strategy?.businessModel}/>
-
-
-<TextBlock title="Monetization" value={report.strategy?.monetization}/>
-
-
-<TextBlock title="Growth Strategy" value={report.strategy?.growthStrategy}/>
-
-
-</Card>
-
-
-
-
-
-
-
-
-
-{/* RISKS */}
-
-
-
-<ListSection
-
-title="Risk Evaluation"
-
-icon={AlertTriangle}
-
-items={report.risks}
-
-/>
-
-
-
-
-
-
-
-
-
-{/* RECOMMENDATIONS */}
-
-
-
-<ListSection
-
-title="AI Recommendations"
-
-icon={Lightbulb}
-
-items={report.recommendations}
-
-/>
-
-
-
-
-
-
-
-
-
-{/* PITCH */}
-
-
-
-<div
-
-className="
-bg-gradient-to-r
-from-[#022B3A]
-to-[#1F7A8C]
-text-white
-rounded-3xl
-p-8
-"
-
->
-
-
-<Presentation size={32}/>
-
-
-<h2 className="text-3xl font-bold mt-4">
-
-Investor Pitch
-
-</h2>
-
-
-
-<p className="
-mt-4
-leading-8
-text-lg
-">
-
-{report.pitch}
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-
-</div>
-
-
-</DashboardLayout>
-
-
-)
+  );
 
 }
 
@@ -647,29 +570,24 @@ text-lg
 
 
 
+function Card({ children }) {
 
+  return (
 
+    <div className="
+      bg-white
+      dark:bg-gray-900
+      border
+      rounded-3xl
+      p-7
+      shadow-sm
+    ">
 
+      {children}
 
-function Card({children}){
+    </div>
 
-
-return(
-
-<div className="
-bg-white
-dark:bg-gray-900
-border
-rounded-3xl
-p-7
-shadow-sm
-">
-
-{children}
-
-</div>
-
-)
+  );
 
 }
 
@@ -677,39 +595,34 @@ shadow-sm
 
 
 
+function TextBlock({ title, value }) {
+
+  return (
+
+    <div className="mt-5">
+
+      <h3 className="font-bold dark:text-white">
+
+        {title}
+
+      </h3>
 
 
+      <p className="
+        text-gray-600
+        dark:text-gray-300
+        mt-2
+      ">
 
+        {Array.isArray(value)
+          ? value.join(", ")
+          : value || "Not available"}
 
-function TextBlock({title,value}){
+      </p>
 
+    </div>
 
-return(
-
-<div className="mt-5">
-
-
-<h3 className="font-bold dark:text-white">
-
-{title}
-
-</h3>
-
-
-<p className="
-text-gray-600
-dark:text-gray-300
-mt-2
-">
-
-{value || "Not available"}
-
-</p>
-
-
-</div>
-
-)
+  );
 
 }
 
@@ -717,71 +630,59 @@ mt-2
 
 
 
+function ListSection({ title, icon: Icon, items = [] }) {
+
+  return (
+
+    <Card>
+
+      <div className="flex items-center gap-3 mb-5">
+
+        <Icon className="text-[#1F7A8C]" />
+
+        <h2 className="text-2xl font-bold dark:text-white">
+
+          {title}
+
+        </h2>
+
+      </div>
 
 
+      <ul className="space-y-3">
 
+        {items.map((item, index) => (
 
-function ListSection({title,icon:Icon,items}){
+          <li
 
+            key={index}
 
-return(
+            className="
+              text-gray-600
+              dark:text-gray-300
+            "
 
-<Card>
+          >
 
+            <span className="text-[#1F7A8C]">
 
-<div className="flex items-center gap-3 mb-5">
+              ✓
 
+            </span>
 
-<Icon className="text-[#1F7A8C]"/>
+            {" "}
 
+            {item}
 
-<h2 className="text-2xl font-bold dark:text-white">
+          </li>
 
-{title}
+        ))}
 
-</h2>
+      </ul>
 
+    </Card>
 
-</div>
-
-
-
-<ul className="space-y-3">
-
-
-{items.map((item,index)=>(
-
-<li key={index}
-
-className="
-text-gray-600
-dark:text-gray-300
-"
-
->
-
-<span className="text-[#1F7A8C]">
-
-✓
-
-</span>
-
-{" "}
-
-{item}
-
-</li>
-
-
-))}
-
-
-</ul>
-
-
-</Card>
-
-)
+  );
 
 }
 
@@ -789,63 +690,51 @@ dark:text-gray-300
 
 
 
+function SWOTCard({ title, icon: Icon, items = [] }) {
+
+  return (
+
+    <Card>
+
+      <div className="flex items-center gap-3 mb-5">
+
+        <Icon className="text-[#1F7A8C]" />
+
+        <h2 className="text-xl font-bold dark:text-white">
+
+          {title}
+
+        </h2>
+
+      </div>
 
 
+      <ul className="space-y-3">
 
+        {items.map((item, index) => (
 
-function SWOTCard({title,icon:Icon,items}){
+          <li
 
+            key={index}
 
-return(
+            className="
+              text-gray-600
+              dark:text-gray-300
+            "
 
-<Card>
+          >
 
+            ✓ {item}
 
-<div className="flex items-center gap-3 mb-5">
+          </li>
 
+        ))}
 
-<Icon className="text-[#1F7A8C]"/>
+      </ul>
 
+    </Card>
 
-<h2 className="text-xl font-bold dark:text-white">
-
-{title}
-
-</h2>
-
-
-</div>
-
-
-
-<ul className="space-y-3">
-
-
-{items.map((item,index)=>(
-
-<li key={index}
-
-className="
-text-gray-600
-dark:text-gray-300
-"
-
->
-
-✓ {item}
-
-</li>
-
-))}
-
-
-</ul>
-
-
-
-</Card>
-
-)
+  );
 
 }
 

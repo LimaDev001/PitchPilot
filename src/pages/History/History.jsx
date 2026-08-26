@@ -30,7 +30,6 @@ import {
 } from "lucide-react";
 
 import DashboardLayout from "../Dashboard/DashboardLayout";
-import { supabase } from "../../lib/supabase";
 import { generatePDF } from "../../utils/generatePDF";
 
 
@@ -58,93 +57,38 @@ function History() {
 
 
 
-
-  async function loadHistory() {
-
+  function loadHistory() {
 
     try {
 
+      const savedAnalyses = JSON.parse(
+        localStorage.getItem("analyses") || "[]"
+      );
 
-      const {
+      const sortedAnalyses = [...savedAnalyses].sort(
+        (a, b) =>
+          new Date(b.created_at) - new Date(a.created_at)
+      );
 
-        data: {
-          user
-        }
-
-      } = await supabase.auth.getUser();
-
-
-
-
-      if (!user) {
-
-        setLoading(false);
-
-        return;
-
-      }
-
-
-
-
-
-      const { data, error } = await supabase
-
-        .from("analyses")
-
-        .select("*")
-
-        .eq("user_id", user.id)
-
-        .order(
-
-          "created_at",
-
-          {
-
-            ascending: false
-
-          }
-
-        );
-
-
-
-
-      if (error) {
-
-        console.error(error);
-
-        setLoading(false);
-
-        return;
-
-      }
-
-
-
-
-      setAnalyses(data || []);
-
-      setLoading(false);
-
-
+      setAnalyses(sortedAnalyses);
 
     }
-
 
     catch (error) {
 
-      console.log(error);
+      console.error("Failed to load history:", error);
+
+      setAnalyses([]);
+
+    }
+
+    finally {
 
       setLoading(false);
 
     }
 
-
   }
-
-
 
 
 
@@ -154,7 +98,6 @@ function History() {
 
 
     const text = idea?.toLowerCase() || "";
-
 
 
     if (
@@ -175,7 +118,6 @@ function History() {
 
 
 
-
     if (
       text.includes("food") ||
       text.includes("cook") ||
@@ -191,9 +133,6 @@ function History() {
         icon: <UtensilsCrossed size={26} />
 
       };
-
-
-
 
 
 
@@ -216,9 +155,6 @@ function History() {
 
 
 
-
-
-
     if (
       text.includes("doctor") ||
       text.includes("hospital") ||
@@ -237,9 +173,6 @@ function History() {
 
 
 
-
-
-
     if (
       text.includes("money") ||
       text.includes("finance") ||
@@ -254,10 +187,6 @@ function History() {
         icon: <Wallet size={26} />
 
       };
-
-
-
-
 
 
 
@@ -280,10 +209,6 @@ function History() {
 
 
 
-
-
-
-
     if (
       text.includes("travel") ||
       text.includes("trip") ||
@@ -297,10 +222,6 @@ function History() {
         icon: <Plane size={26} />
 
       };
-
-
-
-
 
 
 
@@ -320,10 +241,6 @@ function History() {
 
 
 
-
-
-
-
     if (
       text.includes("music") ||
       text.includes("song") ||
@@ -337,10 +254,6 @@ function History() {
         icon: <Music size={26} />
 
       };
-
-
-
-
 
 
 
@@ -360,10 +273,6 @@ function History() {
 
 
 
-
-
-
-
     if (
       text.includes("car") ||
       text.includes("vehicle") ||
@@ -377,10 +286,6 @@ function History() {
         icon: <Car size={26} />
 
       };
-
-
-
-
 
 
 
@@ -401,10 +306,6 @@ function History() {
 
 
 
-
-
-
-
     if (
       text.includes("business") ||
       text.includes("company") ||
@@ -419,10 +320,6 @@ function History() {
         icon: <Building2 size={26} />
 
       };
-
-
-
-
 
 
 
@@ -442,8 +339,6 @@ function History() {
 
 
 
-
-
     return {
 
       name: "Startup Idea",
@@ -452,9 +347,7 @@ function History() {
 
     };
 
-
   }
-
 
 
 
@@ -465,7 +358,6 @@ function History() {
     setSelectedAnalysis(item);
 
   }
-
 
 
 
@@ -481,104 +373,49 @@ function History() {
 
 
 
-
-
   async function deleteAnalysis() {
 
 
     if (!selectedAnalysis) return;
 
 
-
     setDeleting(true);
-
 
 
     try {
 
+      const updatedAnalyses = analyses.filter(
 
-      const {
-
-        data: {
-          user
-        }
-
-      } = await supabase.auth.getUser();
-
-
-
-
-
-      if (!user) {
-
-        alert("User not found");
-
-        setDeleting(false);
-
-        return;
-
-      }
-
-
-
-
-
-
-      const { error } = await supabase
-
-        .from("analyses")
-
-        .delete()
-
-        .eq("id", selectedAnalysis.id)
-
-        .eq("user_id", user.id);
-
-
-
-
-
-      if (error) {
-
-        alert(error.message);
-
-        setDeleting(false);
-
-        return;
-
-      }
-
-
-
-
-
-      setAnalyses((old) =>
-
-        old.filter(
-
-          (item) => item.id !== selectedAnalysis.id
-
-        )
+        (item) =>
+          String(item.id) !== String(selectedAnalysis.id)
 
       );
 
+
+      localStorage.setItem(
+
+        "analyses",
+
+        JSON.stringify(updatedAnalyses)
+
+      );
+
+
+      setAnalyses(updatedAnalyses);
 
 
       setSelectedAnalysis(null);
 
 
-
     }
-
 
     catch (error) {
 
-      console.log(error);
+      console.error(error);
 
       alert("Delete failed");
 
     }
-
 
     finally {
 
@@ -586,11 +423,7 @@ function History() {
 
     }
 
-
   }
-
-
-
 
 
 
@@ -610,7 +443,6 @@ function History() {
     let recommendations = [];
 
 
-
     try {
 
       swot = JSON.parse(item.swot_report || "{}");
@@ -618,7 +450,6 @@ function History() {
     }
 
     catch { }
-
 
 
     try {
@@ -630,7 +461,6 @@ function History() {
     catch { }
 
 
-
     try {
 
       strategy = JSON.parse(item.business_strategy || "{}");
@@ -638,7 +468,6 @@ function History() {
     }
 
     catch { }
-
 
 
     try {
@@ -650,16 +479,15 @@ function History() {
     catch { }
 
 
-
     try {
 
-      recommendations = JSON.parse(item.recommendations || "[]");
+      recommendations = JSON.parse(
+        item.recommendations || "[]"
+      );
 
     }
 
     catch { }
-
-
 
 
 
@@ -695,10 +523,7 @@ function History() {
 
       pitch: item.investor_pitch || ""
 
-
     };
-
-
 
 
 
@@ -710,33 +535,23 @@ function History() {
 
     );
 
-
   }
 
 
 
 
 
+  const filteredAnalyses = analyses.filter(
 
+    (item) =>
 
-
-  const filteredAnalyses = analyses.filter(item =>
-
-
-    item.idea
-
-      ?.toLowerCase()
-
-      .includes(
-
-        search.toLowerCase()
-
-      )
-
+      item.idea
+        ?.toLowerCase()
+        .includes(
+          search.toLowerCase()
+        )
 
   );
-
-
 
 
 
@@ -748,8 +563,6 @@ function History() {
 
 
       <div className="space-y-8">
-
-
 
 
         <div className="flex items-center gap-4">
@@ -783,8 +596,6 @@ function History() {
 
 
 
-
-
           <div>
 
 
@@ -803,7 +614,6 @@ function History() {
             </h1>
 
 
-
             <p className="text-gray-500 mt-2">
 
               Your saved startup analyses.
@@ -815,11 +625,6 @@ function History() {
 
 
         </div>
-
-
-
-
-
 
 
 
@@ -840,8 +645,6 @@ function History() {
 
 
           <Search className="text-gray-400" />
-
-
 
 
           <input
@@ -866,11 +669,6 @@ function History() {
 
 
 
-
-
-
-
-
         {
 
           loading &&
@@ -885,15 +683,9 @@ function History() {
 
 
 
-
-
-
-
-
         {
 
           !loading && filteredAnalyses.length === 0 &&
-
 
           <div className="text-center py-20 text-gray-500">
 
@@ -905,7 +697,6 @@ function History() {
             </h2>
 
 
-
             <p className="mt-2">
 
               Create your first startup analysis.
@@ -915,13 +706,7 @@ function History() {
 
           </div>
 
-
         }
-
-
-
-
-
 
 
 
@@ -930,12 +715,10 @@ function History() {
 
           {
 
-
             filteredAnalyses.map((item) => {
 
 
               const info = getIdeaInfo(item.idea);
-
 
 
               return (
@@ -957,9 +740,7 @@ function History() {
                 >
 
 
-
                   <div className="flex items-center gap-4">
-
 
 
                     <div
@@ -977,15 +758,9 @@ function History() {
 
                     >
 
-
                       {info.icon}
 
-
                     </div>
-
-
-
-
 
 
                     <div>
@@ -1024,11 +799,7 @@ function History() {
                     </div>
 
 
-
                   </div>
-
-
-
 
 
 
@@ -1037,9 +808,6 @@ function History() {
                     {item.idea}
 
                   </p>
-
-
-
 
 
 
@@ -1066,8 +834,6 @@ function History() {
                     />
 
 
-
-
                     <StatCard
 
                       icon={<ShieldCheck />}
@@ -1077,8 +843,6 @@ function History() {
                       value="Completed"
 
                     />
-
-
 
 
                     <StatCard
@@ -1096,11 +860,6 @@ function History() {
 
 
 
-
-
-
-
-
                   <div
 
                     className="
@@ -1112,7 +871,6 @@ function History() {
                     "
 
                   >
-
 
 
                     <Link
@@ -1137,16 +895,9 @@ function History() {
 
                     >
 
-
                       <Eye size={22} />
 
-
                     </Link>
-
-
-
-
-
 
 
 
@@ -1172,16 +923,9 @@ function History() {
 
                     >
 
-
                       <Download size={22} />
 
-
                     </button>
-
-
-
-
-
 
 
 
@@ -1208,18 +952,12 @@ function History() {
 
                     >
 
-
                       <Trash2 size={22} />
-
 
                     </button>
 
 
-
                   </div>
-
-
-
 
 
                 </div>
@@ -1227,9 +965,7 @@ function History() {
 
               );
 
-
             })
-
 
           }
 
@@ -1238,9 +974,6 @@ function History() {
 
 
       </div>
-
-
-
 
 
 
@@ -1294,9 +1027,6 @@ function History() {
           >
 
 
-
-            {/* CLOSE BUTTON */}
-
             <button
 
               onClick={closeDeleteModal}
@@ -1329,11 +1059,6 @@ function History() {
 
 
 
-
-
-
-            {/* WARNING ICON */}
-
             <div
 
               className="
@@ -1356,9 +1081,6 @@ function History() {
 
 
 
-
-
-
             <h2
 
               className="
@@ -1373,9 +1095,6 @@ function History() {
               Delete Analysis?
 
             </h2>
-
-
-
 
 
 
@@ -1396,11 +1115,6 @@ function History() {
             </p>
 
 
-
-
-
-
-            {/* IDEA PREVIEW */}
 
             <div
 
@@ -1435,11 +1149,6 @@ function History() {
 
 
 
-
-
-
-            {/* BUTTONS */}
-
             <div className="flex gap-3 mt-7">
 
 
@@ -1470,9 +1179,6 @@ function History() {
                 Cancel
 
               </button>
-
-
-
 
 
 
@@ -1518,7 +1224,6 @@ function History() {
             </div>
 
 
-
           </div>
 
 
@@ -1529,13 +1234,9 @@ function History() {
 
     </DashboardLayout>
 
-
   );
 
-
 }
-
-
 
 
 
@@ -1566,18 +1267,11 @@ function StatCard({ icon, title, value }) {
       </div>
 
 
-
-
-
       <p className="text-gray-500 mt-3">
 
         {title}
 
       </p>
-
-
-
-
 
 
       <h3
@@ -1595,16 +1289,11 @@ function StatCard({ icon, title, value }) {
       </h3>
 
 
-
     </div>
-
 
   );
 
-
 }
-
-
 
 
 
